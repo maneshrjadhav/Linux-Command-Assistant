@@ -1,0 +1,3092 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linux Command Assistant — Smart Linux Learning Platform</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar" aria-label="Main Navigation">
+            <div class="sidebar-header">
+                <div class="brand">
+                    <div class="terminal-badge"><span class="terminal-prompt">$</span></div>
+                    <div class="brand-text">
+                        <h1 class="brand-title">Linux Command</h1>
+                        <span class="brand-tag">Assistant</span>
+                    </div>
+                </div>
+                <button type="button" class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close menu">&times;</button>
+            </div>
+
+            <nav class="sidebar-nav">
+                <button type="button" class="nav-item active" data-view="dashboard">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                    <span>Dashboard</span>
+                </button>
+                <button type="button" class="nav-item" data-view="terminal">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+                    <span>Terminal Assistant</span>
+                    <span class="nav-badge">Chat</span>
+                </button>
+                <button type="button" class="nav-item" data-view="simulator">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                    <span>Practice Simulator</span>
+                    <span class="nav-badge badge-emerald">Sandbox</span>
+                </button>
+                <button type="button" class="nav-item" data-view="explorer">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <span>Command Explorer</span>
+                </button>
+                <button type="button" class="nav-item" data-view="learning">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                    <span>Learning Paths</span>
+                </button>
+                <button type="button" class="nav-item" data-view="quiz">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                    <span>Interactive Quiz</span>
+                </button>
+                <button type="button" class="nav-item" data-view="favorites">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                    <span>Favorites & History</span>
+                </button>
+                <button type="button" class="nav-item" data-view="about">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                    <span>About Project</span>
+                    <span class="nav-badge">AIAD</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="platform-status-card">
+                    <div class="status-indicator">
+                        <span class="pulse-dot"></span>
+                        <span class="status-label">Safe Learning Mode</span>
+                    </div>
+                    <p class="status-sub">Zero host execution &bull; 100% Safe</p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Wrapper -->
+        <div class="main-wrapper">
+            <!-- Top Header -->
+            <header class="top-header">
+                <div class="header-left">
+                    <button type="button" class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle navigation menu">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                    </button>
+                    <div>
+                        <h2 class="page-title" id="pageTitle">Dashboard Overview</h2>
+                        <p class="page-subtitle">Smart Linux Learning Platform &bull; College AIAD Project</p>
+                    </div>
+                </div>
+
+                <div class="header-right">
+                    <!-- Quick Search in Header -->
+                    <div class="header-search-box">
+                        <svg class="search-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        <input type="text" id="headerSearchInput" placeholder="Quick lookup (e.g. chmod, grep)..." autocomplete="off" aria-label="Quick command lookup" />
+                        <div class="autocomplete-dropdown" id="headerAutocompleteDropdown"></div>
+                    </div>
+                    <button type="button" class="btn-terminal-switch" id="jumpToSimulatorBtn">
+                        <span class="terminal-sym">&#9656;</span>
+                        <span>Practice Sim</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Main Content Container -->
+            <main class="content-area">
+
+                <!-- ======================================================== -->
+                <!-- VIEW 1: DASHBOARD -->
+                <!-- ======================================================== -->
+                <section class="view-panel active" id="view-dashboard">
+                    <!-- Hero Welcome Banner -->
+                    <div class="hero-banner">
+                        <div class="hero-text">
+                            <span class="hero-badge">AIAD MINI PROJECT &bull; SUBMISSION READY</span>
+                            <h2>Master Linux Commands Safely & Interactively</h2>
+                            <p>Explore command structures, practice flags and options in a virtual practice terminal, test your knowledge with self-assessment quizzes, and track your learning progress without executing dangerous commands on your machine.</p>
+                            <div class="hero-actions">
+                                <button type="button" class="btn-primary" id="heroSimulatorBtn">Launch Practice Simulator</button>
+                                <button type="button" class="btn-secondary" id="heroExploreBtn">Explore 53 Commands</button>
+                                <button type="button" class="btn-outline" id="heroQuizBtn">Take Quiz</button>
+                            </div>
+                        </div>
+                        <div class="hero-terminal-card" aria-hidden="true">
+                            <div class="terminal-dots">
+                                <span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span>
+                                <span class="term-title">safe-sandbox-session</span>
+                            </div>
+                            <div class="term-body">
+                                <p><span class="p-green">student@linux</span>:<span class="p-blue">~</span>$ chmod 755 script.sh</p>
+                                <p class="term-output">&gt; Owner: rwx (7) | Group: rx (5) | Other: rx (5)</p>
+                                <p><span class="p-green">student@linux</span>:<span class="p-blue">~</span>$ systemctl status nginx</p>
+                                <p class="term-output">&gt; Active: active (running) &bull; PID: 1420 &bull; 80/tcp</p>
+                                <p><span class="p-green">student@linux</span>:<span class="p-blue">~</span>$ <span class="cursor">_</span></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Statistics Cards Grid (Real Data) -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon-wrapper icon-blue">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+                            </div>
+                            <div>
+                                <span class="stat-value" id="statTotalCommands">53</span>
+                                <span class="stat-label">Commands in Knowledge Base</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon-wrapper icon-emerald">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                            </div>
+                            <div>
+                                <span class="stat-value" id="statSessionViewed">0</span>
+                                <span class="stat-label">Explored in This Session</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon-wrapper icon-amber">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                            </div>
+                            <div>
+                                <span class="stat-value" id="statFavoritesCount">0</span>
+                                <span class="stat-label">Bookmarked Favorites</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon-wrapper icon-purple">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                            </div>
+                            <div>
+                                <span class="stat-value" id="statLessonsCompleted">0 / 15</span>
+                                <span class="stat-label">Lessons Completed</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Continue Learning & Daily Practice Row (Module 1 & 6) -->
+                    <div class="learning-action-row">
+                        <!-- Continue Learning Card -->
+                        <div class="action-card continue-learning-card">
+                            <div class="action-card-header">
+                                <span class="action-badge-cyan">CONTINUE LEARNING</span>
+                                <span class="action-meta" id="dashTrackProgressBadge">0% Track Progress</span>
+                            </div>
+                            <h4 class="action-title" id="dashNextLessonTitle">Lesson 1: Terminal Orientation &amp; Path Navigation</h4>
+                            <p class="action-subtext" id="dashNextLessonDesc">Understand the Linux filesystem hierarchy and inspect your current directory.</p>
+                            <div class="action-card-footer">
+                                <button type="button" class="btn-primary-sm" id="dashResumeLessonBtn">Resume Lesson &rarr;</button>
+                                <span class="action-track-label" id="dashCurrentTrackName">Track: Beginner</span>
+                            </div>
+                        </div>
+
+                        <!-- Daily Practice Suggestion Card -->
+                        <div class="action-card daily-practice-card">
+                            <div class="action-card-header">
+                                <span class="action-badge-emerald">DAILY PRACTICE</span>
+                                <span class="action-meta">&#9733; Featured Command</span>
+                            </div>
+                            <h4 class="action-title" id="dashDailyCmdTitle">chmod — Change Permissions</h4>
+                            <p class="action-subtext" id="dashDailyCmdDesc">Master user, group, and other permissions with octal notation (755, 644).</p>
+                            <div class="action-card-footer">
+                                <button type="button" class="btn-secondary-sm" id="dashDailyInspectBtn">Inspect Command</button>
+                                <button type="button" class="btn-outline-sm" id="dashDailySimBtn">Try in Simulator</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gamification & Milestones Row (Module 6) -->
+                    <div class="gamification-card">
+                        <div class="gamification-header">
+                            <div>
+                                <h4 class="gamification-title">Learning Journey &amp; Milestones</h4>
+                                <p class="gamification-subtitle">Track study consistency, practice streaks, and unlocked achievements.</p>
+                            </div>
+                            <div class="streak-indicator">
+                                <span class="streak-icon">&#128293;</span>
+                                <div>
+                                    <span class="streak-count" id="dashStreakDays">Study Day 1</span>
+                                    <span class="streak-label">Active Streak</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="badges-grid" id="dashBadgesGrid">
+                            <div class="milestone-badge locked" id="badgeFirstStep">
+                                <span class="badge-icon">&#128640;</span>
+                                <span class="badge-name">First Steps</span>
+                                <span class="badge-desc">Explored 1st command</span>
+                            </div>
+                            <div class="milestone-badge locked" id="badgeCurator">
+                                <span class="badge-icon">&#11088;</span>
+                                <span class="badge-name">Curator</span>
+                                <span class="badge-desc">Saved 1st bookmark</span>
+                            </div>
+                            <div class="milestone-badge locked" id="badgeLabTech">
+                                <span class="badge-icon">&#127891;</span>
+                                <span class="badge-name">Lab Cadet</span>
+                                <span class="badge-desc">Finished 1st lesson</span>
+                            </div>
+                            <div class="milestone-badge locked" id="badgeQuizMaster">
+                                <span class="badge-icon">&#127942;</span>
+                                <span class="badge-name">Quiz Master</span>
+                                <span class="badge-desc">Scored 80%+ on quiz</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recently Viewed Commands Strip (Module 1 & 8) -->
+                    <div class="recently-viewed-card" id="dashRecentlyViewedCard">
+                        <div class="recent-header">
+                            <span class="recent-label">&#128340; Recently Explored Commands:</span>
+                            <span class="recent-hint">Click to inspect dossier</span>
+                        </div>
+                        <div class="recent-chips-container" id="dashRecentChips">
+                            <span class="recent-empty-hint">No commands explored in this session yet. Choose an essential command below!</span>
+                        </div>
+                    </div>
+
+                    <!-- Learning Path Level Shortcuts (Module 1) -->
+                    <div class="level-shortcuts-card">
+                        <span class="shortcuts-heading">Learning Tracks:</span>
+                        <div class="level-btn-group">
+                            <button type="button" class="btn-track-shortcut" data-jumptrack="beginner">
+                                <span class="t-icon">&#128640;</span>
+                                <span class="t-text">Beginner: Navigation &amp; Files</span>
+                            </button>
+                            <button type="button" class="btn-track-shortcut" data-jumptrack="intermediate">
+                                <span class="t-icon">&#9881;</span>
+                                <span class="t-text">Intermediate: Permissions &amp; Grep</span>
+                            </button>
+                            <button type="button" class="btn-track-shortcut" data-jumptrack="advanced">
+                                <span class="t-icon">&#128737;</span>
+                                <span class="t-text">Advanced: Systemd &amp; Networks</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Category Showcase Section -->
+                    <div class="section-container">
+                        <div class="section-header">
+                            <div>
+                                <h3 class="section-heading">Browse Command Categories</h3>
+                                <p class="section-subheading">Choose any domain to explore syntax, practical examples, and options.</p>
+                            </div>
+                        </div>
+                        <div class="categories-grid" id="dashboardCategoriesGrid">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Quick Launcher Row -->
+                    <div class="quick-launcher-card">
+                        <span class="launcher-label">Essential Commands:</span>
+                        <div class="launcher-chips">
+                            <button type="button" class="btn-chip" data-quick="ls">ls</button>
+                            <button type="button" class="btn-chip" data-quick="pwd">pwd</button>
+                            <button type="button" class="btn-chip" data-quick="mkdir practice">mkdir</button>
+                            <button type="button" class="btn-chip" data-quick="cp notes.txt backup.txt">cp</button>
+                            <button type="button" class="btn-chip" data-quick="mv report.txt docs/">mv</button>
+                            <button type="button" class="btn-chip" data-quick="grep error server.log">grep</button>
+                            <button type="button" class="btn-chip" data-quick="chmod 755 script.sh">chmod</button>
+                            <button type="button" class="btn-chip" data-quick="systemctl status nginx">systemctl</button>
+                            <button type="button" class="btn-chip" data-quick="top">top</button>
+                            <button type="button" class="btn-chip" data-quick="df -h">df</button>
+                            <button type="button" class="btn-chip" data-quick="ping -c 4 google.com">ping</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ======================================================== -->
+                <!-- VIEW 2: TERMINAL ASSISTANT (Preserved Original Chat) -->
+                <!-- ======================================================== -->
+                <section class="view-panel" id="view-terminal">
+                    <div class="intro-card">
+                        <p>
+                            Welcome to the <strong>Terminal Assistant</strong>! Enter any Linux command (e.g., <code>ls -la</code>, <code>chmod 755 script.sh</code>, or <code>systemctl status nginx</code>) or click a suggestion below to get an instant breakdown.
+                        </p>
+                        <div class="suggestion-bar">
+                            <span class="suggestion-label">Suggested Commands:</span>
+                            <div class="suggestion-chips" id="suggestionChips">
+                                <button type="button" class="chip" data-command="ls">ls</button>
+                                <button type="button" class="chip" data-command="pwd">pwd</button>
+                                <button type="button" class="chip" data-command="mkdir practice">mkdir</button>
+                                <button type="button" class="chip" data-command="cp notes.txt backup.txt">cp</button>
+                                <button type="button" class="chip" data-command="mv report.txt docs/">mv</button>
+                                <button type="button" class="chip" data-command="grep error server.log">grep</button>
+                                <button type="button" class="chip" data-command="chmod 755 script.sh">chmod</button>
+                                <button type="button" class="chip" data-command="systemctl status nginx">systemctl</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chat Stream Window -->
+                    <div class="chat-wrapper" aria-label="Command Explanation Stream">
+                        <div class="chat-container" id="chatContainer">
+                            <div class="message-row assistant">
+                                <div class="avatar assistant-avatar">$</div>
+                                <div class="message-bubble assistant-bubble">
+                                    <div class="welcome-box">
+                                        <h3 class="welcome-heading">Ready to Assist</h3>
+                                        <p>Ask me to explain any Linux command. I provide clear explanations, proper syntax, real-world examples, and breakdown details without running anything on your machine.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Loading Indicator -->
+                        <div class="loading-indicator" id="loadingIndicator" style="display: none;">
+                            <div class="avatar assistant-avatar">$</div>
+                            <div class="loading-bubble">
+                                <span class="dot"></span>
+                                <span class="dot"></span>
+                                <span class="dot"></span>
+                                <span class="loading-text">Consulting Linux knowledge base...</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Command Input Form -->
+                    <div class="input-section">
+                        <form id="commandForm" class="command-form" autocomplete="off">
+                            <div class="input-group">
+                                <span class="input-icon">$</span>
+                                <input 
+                                    type="text" 
+                                    id="commandInput" 
+                                    name="command" 
+                                    placeholder="Enter Linux command (e.g., ls -la, mkdir demo, chmod 755)..." 
+                                    required 
+                                    autofocus
+                                    aria-label="Linux command to explain"
+                                />
+                                <button type="button" id="clearBtn" class="clear-btn" title="Clear input" aria-label="Clear input">&times;</button>
+                            </div>
+                            <button type="submit" id="submitBtn" class="submit-btn">
+                                <span>Explain Command</span>
+                                <svg class="btn-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    <polyline points="12 5 19 12 12 19"></polyline>
+                                </svg>
+                            </button>
+                        </form>
+                    </div>
+                </section>
+
+                <!-- ======================================================== -->
+                <!-- VIEW 3: SAFE LINUX PRACTICE SIMULATOR (NEW FEATURE 2) -->
+                <!-- ======================================================== -->
+                <section class="view-panel" id="view-simulator">
+                    <!-- Simulator Header & Notice -->
+                    <div class="sim-header-card">
+                        <div class="sim-title-group">
+                            <div class="sim-badge-row">
+                                <span class="sim-security-badge">&#128737; SIMULATED TERMINAL — No commands are executed on your real computer.</span>
+                                <span class="sim-mode-tag">Virtual Linux Filesystem</span>
+                            </div>
+                            <h3>Interactive Linux Practice Terminal</h3>
+                            <p>Type real Linux commands to practice navigation, file creation, and text manipulation. The simulator runs on a safe, client-side virtual filesystem isolated inside your browser.</p>
+                        </div>
+                        <div class="sim-header-actions">
+                            <button type="button" class="btn-secondary-sm" id="simHelpBtn">&#10067; Help & Guide</button>
+                            <button type="button" class="btn-danger-sm" id="simResetBtn">&#128472; Reset Filesystem</button>
+                        </div>
+                    </div>
+
+                    <!-- Simulator Terminal Window -->
+                    <div class="sim-terminal-window">
+                        <div class="sim-window-topbar">
+                            <div class="terminal-dots">
+                                <span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span>
+                            </div>
+                            <span class="sim-window-title" id="simWindowTitle">student@simulator: ~ (Virtual Bash)</span>
+                            <button type="button" class="sim-clear-btn" id="simClearBtn" title="Clear terminal screen">Clear</button>
+                        </div>
+
+                        <div class="sim-window-body" id="simTerminalBody">
+                            <div class="sim-output-stream" id="simOutputStream">
+                                <div class="sim-welcome-message">
+                                    <p class="sim-text-cyan">================================================================================</p>
+                                    <p class="sim-text-bold">Linux Command Assistant — Safe Practice Simulator</p>
+                                    <p class="sim-text-muted">Type <span class="sim-text-highlight">'help'</span> for a list of supported virtual commands.</p>
+                                    <p class="sim-text-muted">Supported: <span class="sim-text-code">pwd, ls, cd, mkdir, touch, cat, echo, clear, whoami, date, rm</span></p>
+                                    <p class="sim-text-cyan">================================================================================</p>
+                                </div>
+                            </div>
+
+                            <!-- Interactive Input Line -->
+                            <div class="sim-input-row">
+                                <span class="sim-prompt-span">
+                                    <span class="sim-user">student@simulator</span>:<span class="sim-path" id="simPromptPath">~</span>$&nbsp;
+                                </span>
+                                <input 
+                                    type="text" 
+                                    id="simInput" 
+                                    class="sim-input" 
+                                    autocomplete="off" 
+                                    spellcheck="false" 
+                                    aria-label="Simulated command input"
+                                    placeholder="Type a command (e.g. ls, pwd, mkdir practice)..."
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Command Suggestion Bar for Simulator -->
+                    <div class="sim-shortcuts-bar">
+                        <span class="sim-shortcuts-label">Quick Commands:</span>
+                        <button type="button" class="sim-chip" data-simcmd="pwd">pwd</button>
+                        <button type="button" class="sim-chip" data-simcmd="ls -la">ls -la</button>
+                        <button type="button" class="sim-chip" data-simcmd="cd documents">cd documents</button>
+                        <button type="button" class="sim-chip" data-simcmd="cat notes.txt">cat notes.txt</button>
+                        <button type="button" class="sim-chip" data-simcmd="cp notes.txt backup.txt">cp notes.txt backup.txt</button>
+                        <button type="button" class="sim-chip" data-simcmd="mv backup.txt docs/">mv backup.txt docs/</button>
+                        <button type="button" class="sim-chip" data-simcmd="cd ~">cd ~</button>
+                        <button type="button" class="sim-chip" data-simcmd="mkdir myfolder">mkdir myfolder</button>
+                        <button type="button" class="sim-chip" data-simcmd="touch myfolder/test.txt">touch myfolder/test.txt</button>
+                        <button type="button" class="sim-chip" data-simcmd="echo 'Linux is powerful' > quote.txt">echo &gt; quote.txt</button>
+                        <button type="button" class="sim-chip" data-simcmd="cat quote.txt">cat quote.txt</button>
+                        <button type="button" class="sim-chip" data-simcmd="help">help</button>
+                        <button type="button" class="sim-chip" data-simcmd="clear">clear</button>
+                    </div>
+                </section>
+
+                <!-- ======================================================== -->
+                <!-- VIEW 4: COMMAND EXPLORER -->
+                <!-- ======================================================== -->
+                <section class="view-panel" id="view-explorer">
+                    <!-- Search & Filter Controls -->
+                    <div class="explorer-toolbar">
+                        <div class="explorer-search-wrapper">
+                            <svg class="search-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                            <input type="text" id="explorerSearchInput" placeholder="Filter commands by name, syntax, or keywords..." autocomplete="off" aria-label="Search command explorer">
+                            <button type="button" class="btn-icon" id="explorerClearSearch" title="Clear filter">&times;</button>
+                        </div>
+                        <div class="difficulty-filters" id="difficultyFilterBar">
+                            <button type="button" class="filter-pill active" data-diff="all">All Levels</button>
+                            <button type="button" class="filter-pill" data-diff="Beginner">Beginner</button>
+                            <button type="button" class="filter-pill" data-diff="Intermediate">Intermediate</button>
+                            <button type="button" class="filter-pill" data-diff="Advanced">Advanced</button>
+                        </div>
+                        <div class="explorer-sort-wrapper">
+                            <select id="explorerSortSelect" class="explorer-sort-select" aria-label="Sort commands">
+                                <option value="asc">Sort: A &rarr; Z</option>
+                                <option value="desc">Sort: Z &rarr; A</option>
+                                <option value="recent">Sort: Recently Viewed</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Category Pills Horizontal Scroll -->
+                    <div class="category-pills-bar" id="categoryPillBar">
+                        <button type="button" class="cat-pill active" data-cat="all">All Categories</button>
+                        <!-- Populated by JavaScript -->
+                    </div>
+
+                    <!-- Results Count Bar -->
+                    <div class="results-meta-bar">
+                        <span id="resultsCount">Showing 53 commands</span>
+                        <span class="meta-tip">Tip: Click on any command card to open full options, syntax, and safety warnings.</span>
+                    </div>
+
+                    <!-- Commands Grid -->
+                    <div class="commands-grid" id="commandsGrid">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </section>
+
+                <!-- ======================================================== -->
+                <!-- VIEW 5: LEARNING PATHS -->
+                <!-- ======================================================== -->
+                <section class="view-panel" id="view-learning">
+                    <div class="learning-header">
+                        <div>
+                            <h3 class="section-heading">Guided Linux Learning Tracks</h3>
+                            <p class="section-subheading">Step-by-step curricula with hands-on practice challenges and progress tracking.</p>
+                        </div>
+                        <button type="button" class="btn-text-danger" id="resetLearningProgressBtn">&#128472; Reset Track Progress</button>
+                    </div>
+
+                    <!-- Track Tabs -->
+                    <div class="track-tabs">
+                        <button type="button" class="track-tab active" data-track="beginner">
+                            <span class="track-icon">&#128640;</span>
+                            <div>
+                                <span class="track-title">Linux Beginner</span>
+                                <span class="track-desc">Essential Navigation & File Operations</span>
+                            </div>
+                        </button>
+                        <button type="button" class="track-tab" data-track="intermediate">
+                            <span class="track-icon">&#9881;</span>
+                            <div>
+                                <span class="track-title">Linux Intermediate</span>
+                                <span class="track-desc">Permissions, Text & System Monitoring</span>
+                            </div>
+                        </button>
+                        <button type="button" class="track-tab" data-track="advanced">
+                            <span class="track-icon">&#128737;</span>
+                            <div>
+                                <span class="track-title">Linux Advanced</span>
+                                <span class="track-desc">Services, Networking & Automation</span>
+                            </div>
+                        </button>
+                    </div>
+
+                    <!-- Track Progress Bar -->
+                    <div class="track-progress-card">
+                        <div class="progress-info">
+                            <span class="progress-title" id="currentTrackProgressTitle">Beginner Track Progress</span>
+                            <span class="progress-percentage" id="currentTrackProgressPercent">0%</span>
+                        </div>
+                        <div class="progress-track">
+                            <div class="progress-fill" id="currentTrackProgressBar" style="width: 0%;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Lessons List -->
+                    <div class="lessons-container" id="lessonsContainer">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </section>
+
+                <!-- ======================================================== -->
+                <!-- VIEW 6: INTERACTIVE QUIZ (Enhanced Start & Review) -->
+                <!-- ======================================================== -->
+                <section class="view-panel" id="view-quiz">
+                    <div class="quiz-container" id="quizContainer">
+                        <!-- Screen 1: Quiz Intro / Start Card -->
+                        <div class="quiz-screen active" id="quizStartScreen">
+                            <div class="quiz-intro-card">
+                                <div class="quiz-intro-icon">&#129504;</div>
+                                <h3 class="quiz-intro-heading">Linux Command Mastery Quiz</h3>
+                                <p class="quiz-intro-text">
+                                    Test your command-line expertise across 18 real-world questions covering filesystem navigation, user permissions, process signals, networking utilities, and systemd services.
+                                </p>
+
+                                <div class="quiz-features-row">
+                                    <div class="q-feat-item">
+                                        <span class="q-feat-num">18</span>
+                                        <span class="q-feat-label">Questions</span>
+                                    </div>
+                                    <div class="q-feat-item">
+                                        <span class="q-feat-num">100%</span>
+                                        <span class="q-feat-label">Deterministic & Local</span>
+                                    </div>
+                                    <div class="q-feat-item">
+                                        <span class="q-feat-num" id="quizBestScoreDisplay">-- / 18</span>
+                                        <span class="q-feat-label">Your Best Score</span>
+                                    </div>
+                                </div>
+
+                                <div class="quiz-intro-actions">
+                                    <button type="button" class="btn-primary-lg" id="startQuizBtn">Start Quiz Now &rarr;</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Screen 2: Active Question Screen -->
+                        <div class="quiz-screen" id="quizActiveScreen" style="display: none;">
+                            <div class="quiz-top-bar">
+                                <div class="quiz-counter">
+                                    <span class="quiz-step-badge" id="quizQuestionBadge">Question 1 of 18</span>
+                                    <span class="quiz-category-tag" id="quizCategoryTag">Files and directories</span>
+                                </div>
+                                <div class="quiz-score-live">
+                                    Score: <strong id="quizLiveScore">0</strong>
+                                </div>
+                            </div>
+
+                            <div class="quiz-progress-bar">
+                                <div class="quiz-progress-fill" id="quizProgressBar" style="width: 5.5%;"></div>
+                            </div>
+
+                            <div class="quiz-question-box">
+                                <h3 class="quiz-question-text" id="quizQuestionText">Loading quiz question...</h3>
+                            </div>
+
+                            <div class="quiz-options-list" id="quizOptionsList">
+                                <!-- Options rendered via JavaScript -->
+                            </div>
+
+                            <!-- Explanation Feedback Box -->
+                            <div class="quiz-feedback-box" id="quizFeedbackBox" style="display: none;">
+                                <div class="feedback-icon" id="feedbackIcon">&#10003;</div>
+                                <div class="feedback-content">
+                                    <h4 class="feedback-title" id="feedbackTitle">Correct Answer!</h4>
+                                    <p class="feedback-explanation" id="feedbackExplanation">Explanation text goes here...</p>
+                                </div>
+                            </div>
+
+                            <div class="quiz-footer-actions">
+                                <button type="button" class="btn-secondary" id="quizPrevBtn" disabled>&#8592; Previous</button>
+                                <button type="button" class="btn-primary" id="quizNextBtn" style="display: none;">Next Question &rarr;</button>
+                            </div>
+                        </div>
+
+                        <!-- Screen 3: Quiz Results Summary Screen -->
+                        <div class="quiz-screen" id="quizResultsScreen" style="display: none;">
+                            <div class="quiz-results-card">
+                                <div class="trophy-badge" id="resultsTrophyIcon">&#127942;</div>
+                                <h3 class="results-heading">Quiz Completed!</h3>
+                                <p class="results-sub" id="resultsRankTitle">Linux Terminal Explorer</p>
+                                
+                                <div class="results-score-display">
+                                    <span class="final-score" id="finalScoreVal">0</span>
+                                    <span class="score-divider">/</span>
+                                    <span class="total-score" id="finalTotalVal">18</span>
+                                </div>
+                                <div class="percentage-badge" id="finalPercentVal">0% Accuracy</div>
+
+                                <div class="results-breakdown-row">
+                                    <div class="breakdown-stat">
+                                        <span class="stat-num text-success" id="finalCorrectCount">0</span>
+                                        <span class="stat-text">Correct Answers</span>
+                                    </div>
+                                    <div class="breakdown-stat">
+                                        <span class="stat-num text-danger" id="finalIncorrectCount">0</span>
+                                        <span class="stat-text">Incorrect Answers</span>
+                                    </div>
+                                    <div class="breakdown-stat">
+                                        <span class="stat-num text-accent" id="finalBestScoreVal">0</span>
+                                        <span class="stat-text">Best Score</span>
+                                    </div>
+                                </div>
+
+                                <div class="quiz-results-actions">
+                                    <button type="button" class="btn-primary" id="restartQuizBtn">&#128472; Retake Quiz</button>
+                                    <button type="button" class="btn-secondary" id="toggleReviewBtn">Review All Questions</button>
+                                    <button type="button" class="btn-outline" id="reviewIncorrectOnlyBtn">Review Incorrect Only</button>
+                                </div>
+
+                                <!-- Accordion / Review of All Answers -->
+                                <div class="quiz-review-section" id="quizReviewSection" style="display: none;">
+                                    <h4 class="review-title">Detailed Question-by-Question Review</h4>
+                                    <div class="review-list" id="quizReviewList">
+                                        <!-- Injected via JavaScript -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ======================================================== -->
+                <!-- VIEW 7: FAVORITES & HISTORY -->
+                <!-- ======================================================== -->
+                <section class="view-panel" id="view-favorites">
+                    <div class="fav-tabs-bar">
+                        <div class="fav-tab-buttons">
+                            <button type="button" class="fav-tab active" data-favtab="favorites">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                                <span>Saved Favorites (<span id="favCountBadge">0</span>)</span>
+                            </button>
+                            <button type="button" class="fav-tab" data-favtab="history">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                <span>Search History (<span id="historyCountBadge">0</span>)</span>
+                            </button>
+                        </div>
+                        <div class="fav-header-actions">
+                            <button type="button" class="btn-text-danger" id="clearFavoritesBtn">&#128465; Clear Favorites</button>
+                            <button type="button" class="btn-text-danger" id="clearHistoryBtn" style="display: none;">&#128465; Clear History</button>
+                        </div>
+                    </div>
+
+                    <!-- Favorites List Container -->
+                    <div class="fav-content-section" id="favSectionFavorites">
+                        <div class="items-grid" id="favoritesGrid">
+                            <!-- Injected by JavaScript -->
+                        </div>
+                        <div class="empty-state-card" id="favoritesEmptyState" style="display: none;">
+                            <span class="empty-icon">&#9734;</span>
+                            <h4>No Favorite Commands Yet</h4>
+                            <p>Bookmark any command in Command Explorer or Terminal Assistant by clicking the star icon.</p>
+                            <button type="button" class="btn-primary" id="favGoExploreBtn">Browse Commands</button>
+                        </div>
+                    </div>
+
+                    <!-- History List Container -->
+                    <div class="fav-content-section" id="favSectionHistory" style="display: none;">
+                        <div class="history-list" id="historyList">
+                            <!-- Injected by JavaScript -->
+                        </div>
+                        <div class="empty-state-card" id="historyEmptyState" style="display: none;">
+                            <span class="empty-icon">&#128340;</span>
+                            <h4>Search History is Empty</h4>
+                            <p>Queries you run in the Terminal Assistant will be recorded here for fast reopening.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ======================================================== -->
+                <!-- VIEW 8: ABOUT PROJECT (ACADEMIC DOCUMENTATION) -->
+                <!-- ======================================================== -->
+                <section class="view-panel" id="view-about">
+                    <div class="about-container">
+                        <!-- Project Header Card -->
+                        <div class="about-header-card">
+                            <span class="about-badge">AIAD MINI PROJECT SPECIFICATION</span>
+                            <h2>Linux Command Assistant — Smart Linux Learning Platform</h2>
+                            <p class="about-subtitle">An offline-capable, interactive educational system designed to accelerate Linux terminal competency for computer science students without system risks.</p>
+                        </div>
+
+                        <!-- Academic Submission Details Card -->
+                        <div class="academic-details-card">
+                            <h3 class="academic-title">&#127891; College Mini-Project Submission Profile</h3>
+                            <div class="academic-grid">
+                                <div class="acad-item">
+                                    <span class="acad-label">Project Title:</span>
+                                    <span class="acad-val">Linux Command Assistant — Smart Linux Learning Platform</span>
+                                </div>
+                                <div class="acad-item">
+                                    <span class="acad-label">Course / Domain:</span>
+                                    <span class="acad-val">Artificial Intelligence and Application Development (AIAD)</span>
+                                </div>
+                                <div class="acad-item">
+                                    <span class="acad-label">Student Name / Roll:</span>
+                                    <span class="acad-val editable-field">[Student Name / Roll Number / Class Section]</span>
+                                </div>
+                                <div class="acad-item">
+                                    <span class="acad-label">Project Guide / Mentor:</span>
+                                    <span class="acad-val editable-field">[Faculty Guide / Professor Name]</span>
+                                </div>
+                                <div class="acad-item">
+                                    <span class="acad-label">Institution:</span>
+                                    <span class="acad-val editable-field">[Department of CSE / College / Institute Name]</span>
+                                </div>
+                                <div class="acad-item">
+                                    <span class="acad-label">Academic Year:</span>
+                                    <span class="acad-val">2026 Edition</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Problem Statement & Objectives -->
+                        <div class="about-grid-two">
+                            <div class="about-block">
+                                <h4 class="about-block-title">&#9888; Problem Statement</h4>
+                                <p>Beginners learning Linux face steep intimidation barriers: fear of executing catastrophic commands like <code>rm -rf /</code>, cryptic and verbose manual (<code>man</code>) pages, and lack of immediate interactive feedback. Most online AI tools require paid API keys, internet connectivity, or account registrations, which creates friction for students.</p>
+                            </div>
+                            <div class="about-block">
+                                <h4 class="about-block-title">&#127919; Project Objectives</h4>
+                                <ul>
+                                    <li>Provide clear, structured explanations of 50+ essential Linux commands.</li>
+                                    <li>Implement an in-memory safe practice simulator for risk-free command training.</li>
+                                    <li>Deliver structured learning paths with self-assessing quizzes and progress tracking.</li>
+                                    <li>Ensure 100% local operation with zero paid APIs and zero host OS shell execution.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- System Architecture & Flow -->
+                        <div class="about-block">
+                            <h4 class="about-block-title">&#128736; System Architecture & Technical Flow</h4>
+                            <div class="architecture-diagram">
+                                <div class="arch-box client-box">
+                                    <h5>Client Layer (Browser SPA)</h5>
+                                    <p>HTML5 &bull; CSS3 &bull; Vanilla JS</p>
+                                    <ul>
+                                        <li>Terminal Assistant Chat UI</li>
+                                        <li>Safe Virtual Practice Simulator (In-Memory VFS)</li>
+                                        <li>Command Explorer & Search Index</li>
+                                        <li>Quiz Engine & Learning Track Tracker</li>
+                                        <li>LocalStorage Persistence (No sensitive data)</li>
+                                    </ul>
+                                </div>
+                                <div class="arch-arrow">&harr;<br><small>JSON via Fetch API</small></div>
+                                <div class="arch-box server-box">
+                                    <h5>Backend Layer (Flask Server)</h5>
+                                    <p>Python 3.9+ &bull; Flask 3.1</p>
+                                    <ul>
+                                        <li><code>POST /api/command</code> (Safe Tokenizer)</li>
+                                        <li><code>GET /api/commands</code> (Filter & Autocomplete)</li>
+                                        <li><code>GET /api/categories</code> & <code>/api/stats</code></li>
+                                        <li>Zero Shell Execution Guarantee</li>
+                                    </ul>
+                                </div>
+                                <div class="arch-arrow">&harr;<br><small>O(1) Hash Lookup</small></div>
+                                <div class="arch-box db-box">
+                                    <h5>Knowledge Base Layer</h5>
+                                    <p>Static Python Data Structure</p>
+                                    <ul>
+                                        <li>53 Comprehensive Command Dictionaries</li>
+                                        <li>8 Categorized Linux Domains</li>
+                                        <li>Options, Use Cases, Safety Warnings</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Security Architecture & Triad -->
+                        <div class="about-block">
+                            <h4 class="about-block-title">&#128272; Security Architecture & Safety Guarantees</h4>
+                            <div class="security-triad-grid">
+                                <div class="sec-item">
+                                    <span class="sec-icon">&#10006;</span>
+                                    <h5>Zero OS Command Execution</h5>
+                                    <p>No <code>os.system()</code>, <code>subprocess</code>, <code>eval()</code>, or shell wrappers are ever used. All inputs are strictly parsed as text strings.</p>
+                                </div>
+                                <div class="sec-item">
+                                    <span class="sec-icon">&#128737;</span>
+                                    <h5>Virtual Simulator Isolation</h5>
+                                    <p>The practice simulator operates strictly within browser memory on a simulated virtual JSON filesystem. Path traversal outside the virtual root is prevented.</p>
+                                </div>
+                                <div class="sec-item">
+                                    <span class="sec-icon">&#128737;</span>
+                                    <h5>XSS-Safe DOM Manipulation</h5>
+                                    <p>All dynamic text insertions exclusively use <code>textContent</code> and safe DOM node creation, neutralizing any script injection attacks.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Limitations & Future Scope -->
+                        <div class="about-grid-two">
+                            <div class="about-block">
+                                <h4 class="about-block-title">&#9878; Current System Limitations</h4>
+                                <ul>
+                                    <li>Knowledge base contains 53 curated commands; uncatalogued commands trigger fuzzy matching and recommendations.</li>
+                                    <li>The practice terminal simulates an educational subset (12 commands); it does not simulate low-level kernel drivers or hardware nodes.</li>
+                                </ul>
+                            </div>
+                            <div class="about-block">
+                                <h4 class="about-block-title">&#128640; Future Enhancements</h4>
+                                <ul>
+                                    <li>Multi-step terminal scenario missions (e.g. "Diagnose a crashed web service").</li>
+                                    <li>Exportable certificate of completion for quiz master scores.</li>
+                                    <li>Shell scripting syntax validator and regex visualizer.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+
+            <!-- Footer -->
+            <footer class="footer">
+                <div class="footer-container">
+                    <p class="footer-note">
+                        <strong>Linux Command Assistant — Smart Linux Learning Platform</strong> &bull; AIAD Mini Project &bull; Built with 
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Flask</span>
+                        <span class="tech-tag">HTML5</span>
+                        <span class="tech-tag">CSS3</span>
+                        <span class="tech-tag">JavaScript Fetch API</span>
+                    </p>
+                    <p class="footer-security">
+                        Strict Security Guarantee: Read-only knowledge base dictionary &bull; Zero host operating system command execution.
+                    </p>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Interactive Details Modal -->
+    <div class="modal-overlay" id="detailsModal" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div>
+                    <div class="modal-badges">
+                        <span class="modal-badge-cat" id="modalCategory">Category</span>
+                        <span class="modal-badge-diff" id="modalDifficulty">Difficulty</span>
+                    </div>
+                    <h3 class="modal-command-title" id="modalTitle">command</h3>
+                    <span class="modal-command-meaning" id="modalMeaning">Meaning</span>
+                </div>
+                <div class="modal-header-actions">
+                    <button type="button" class="btn-favorite-toggle" id="modalFavBtn" title="Toggle favorite" aria-label="Bookmark command">
+                        <svg class="star-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                    </button>
+                    <button type="button" class="modal-close-btn" id="modalCloseBtn" aria-label="Close dialog">&times;</button>
+                </div>
+            </div>
+
+            <div class="modal-body" id="modalBody">
+                <!-- Safety warning banner if applicable -->
+                <div class="safety-banner" id="modalSafetyBanner" style="display: none;">
+                    <span class="safety-icon">&#9888;</span>
+                    <p class="safety-text" id="modalSafetyText"></p>
+                </div>
+
+                <!-- Purpose -->
+                <div class="detail-block">
+                    <h4 class="detail-label">Purpose</h4>
+                    <p class="detail-text" id="modalPurpose"></p>
+                </div>
+
+                <!-- Syntax -->
+                <div class="detail-block">
+                    <div class="detail-label-row">
+                        <h4 class="detail-label">Syntax</h4>
+                        <button type="button" class="btn-copy-sm" id="modalCopySyntaxBtn">Copy</button>
+                    </div>
+                    <pre class="code-pre"><code id="modalSyntax"></code></pre>
+                </div>
+
+                <!-- Practical Example -->
+                <div class="detail-block">
+                    <div class="detail-label-row">
+                        <h4 class="detail-label">Practical Example</h4>
+                        <button type="button" class="btn-copy-sm" id="modalCopyExampleBtn">Copy Example</button>
+                    </div>
+                    <pre class="code-pre example-pre"><code id="modalExample"></code></pre>
+                    <p class="example-explanation-text" id="modalExampleExplanation"></p>
+                </div>
+
+                <!-- Expected Illustrative Output (Module 2: Item 8) -->
+                <div class="detail-block" id="modalExpectedOutputBlock">
+                    <div class="detail-label-row">
+                        <h4 class="detail-label">Expected Illustrative Output</h4>
+                        <span class="example-output-badge">[Simulated Example Output]</span>
+                    </div>
+                    <pre class="code-pre output-pre"><code id="modalExpectedOutput"></code></pre>
+                </div>
+
+                <!-- Options / Flags -->
+                <div class="detail-block" id="modalOptionsBlock">
+                    <h4 class="detail-label">Important Options & Flags</h4>
+                    <div class="options-table-wrapper">
+                        <table class="options-table">
+                            <thead>
+                                <tr><th>Flag</th><th>Description</th></tr>
+                            </thead>
+                            <tbody id="modalOptionsTbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Common Use Cases -->
+                <div class="detail-block" id="modalUseCasesBlock">
+                    <h4 class="detail-label">Common Use Cases</h4>
+                    <ul class="use-cases-list" id="modalUseCasesList"></ul>
+                </div>
+
+                <!-- Common Mistakes & Troubleshooting (Module 2) -->
+                <div class="detail-block" id="modalCommonMistakesBlock">
+                    <h4 class="detail-label">Common Mistakes &amp; Troubleshooting</h4>
+                    <div class="mistake-box">
+                        <span class="mistake-icon">&#9888;</span>
+                        <p class="mistake-text" id="modalCommonMistakes"></p>
+                    </div>
+                </div>
+
+                <!-- Beginner Notes -->
+                <div class="detail-block">
+                    <h4 class="detail-label">Beginner-Friendly Tip</h4>
+                    <div class="tip-box">
+                        <span class="tip-icon">&#128161;</span>
+                        <p class="tip-text" id="modalBeginnerNotes"></p>
+                    </div>
+                </div>
+
+                <!-- Related Commands -->
+                <div class="detail-block" id="modalRelatedBlock">
+                    <h4 class="detail-label">Related Commands</h4>
+                    <div class="related-chips" id="modalRelatedChips"></div>
+                </div>
+
+                <!-- Direct Simulator Action -->
+                <div class="modal-sim-action">
+                    <button type="button" class="btn-primary" id="modalTrySimBtn">&#9656; Try This in Practice Simulator</button>
+                </div>
+
+                <div class="modal-disclaimer">
+                    <p>Safety Notice: All commands displayed are informational examples. The Linux Command Assistant does not execute any command on your host system.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification for Copy / Actions -->
+    <div class="toast-notification" id="toastNotification" role="status" aria-live="polite">Action completed</div>
+
+    <!-- Generic Confirmation Modal for Destructive Actions (Module 10) -->
+    <div class="confirm-modal-overlay" id="confirmModal" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+        <div class="confirm-modal-card">
+            <div class="confirm-icon-wrapper" id="confirmIcon">&#9888;</div>
+            <h3 class="confirm-title" id="confirmTitle">Confirm Action</h3>
+            <p class="confirm-message" id="confirmMessage">Are you sure you want to proceed?</p>
+            <div class="confirm-actions">
+                <button type="button" class="btn-cancel" id="confirmCancelBtn">Cancel</button>
+                <button type="button" class="btn-danger-confirm" id="confirmOkBtn">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Frontend Interactive Application Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // ================================================================
+            // APPLICATION STATE & SAFE STORAGE
+            // ================================================================
+            const state = {
+                currentView: 'dashboard',
+                commands: [],
+                categories: [],
+                commandsMap: {},
+                favorites: loadStorage('lac_favorites', []),
+                history: loadStorage('lac_history', []),
+                learningProgress: loadStorage('lac_learning_progress', {}),
+                bestQuizScore: loadStorage('lac_best_quiz_score', 0),
+                sessionViewed: 0,
+                activeTrack: 'beginner',
+                currentQuizIndex: 0,
+                quizAnswered: {},
+                activeCategoryFilter: 'all',
+                activeDiffFilter: 'all',
+                activeModalCommand: null
+            };
+
+            function loadStorage(key, fallback) {
+                try {
+                    const raw = localStorage.getItem(key);
+                    return raw ? JSON.parse(raw) : fallback;
+                } catch (e) {
+                    return fallback;
+                }
+            }
+
+            function saveStorage(key, data) {
+                try {
+                    localStorage.setItem(key, JSON.stringify(data));
+                } catch (e) {}
+            }
+
+            // ================================================================
+            // DOM ELEMENTS
+            // ================================================================
+            const sidebar = document.getElementById('sidebar');
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const sidebarCloseBtn = document.getElementById('sidebarCloseBtn');
+            const pageTitle = document.getElementById('pageTitle');
+            const navItems = document.querySelectorAll('.nav-item');
+            const viewPanels = document.querySelectorAll('.view-panel');
+            const toast = document.getElementById('toastNotification');
+
+            // Header Elements
+            const headerSearchInput = document.getElementById('headerSearchInput');
+            const headerAutocompleteDropdown = document.getElementById('headerAutocompleteDropdown');
+            const jumpToSimulatorBtn = document.getElementById('jumpToSimulatorBtn');
+
+            // Dashboard Elements
+            const statTotalCommands = document.getElementById('statTotalCommands');
+            const statSessionViewed = document.getElementById('statSessionViewed');
+            const statFavoritesCount = document.getElementById('statFavoritesCount');
+            const statLessonsCompleted = document.getElementById('statLessonsCompleted');
+            const dashboardCategoriesGrid = document.getElementById('dashboardCategoriesGrid');
+            const heroSimulatorBtn = document.getElementById('heroSimulatorBtn');
+            const heroExploreBtn = document.getElementById('heroExploreBtn');
+            const heroQuizBtn = document.getElementById('heroQuizBtn');
+
+            // Terminal Assistant Elements
+            const commandForm = document.getElementById('commandForm');
+            const commandInput = document.getElementById('commandInput');
+            const clearBtn = document.getElementById('clearBtn');
+            const submitBtn = document.getElementById('submitBtn');
+            const chatContainer = document.getElementById('chatContainer');
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            const suggestionChips = document.getElementById('suggestionChips');
+
+            // Simulator Elements
+            const simInput = document.getElementById('simInput');
+            const simOutputStream = document.getElementById('simOutputStream');
+            const simPromptPath = document.getElementById('simPromptPath');
+            const simWindowTitle = document.getElementById('simWindowTitle');
+            const simClearBtn = document.getElementById('simClearBtn');
+            const simResetBtn = document.getElementById('simResetBtn');
+            const simHelpBtn = document.getElementById('simHelpBtn');
+
+            // Explorer Elements
+            const explorerSearchInput = document.getElementById('explorerSearchInput');
+            const explorerClearSearch = document.getElementById('explorerClearSearch');
+            const difficultyFilterBar = document.getElementById('difficultyFilterBar');
+            const categoryPillBar = document.getElementById('categoryPillBar');
+            const commandsGrid = document.getElementById('commandsGrid');
+            const resultsCount = document.getElementById('resultsCount');
+
+            // Learning Elements
+            const trackTabs = document.querySelectorAll('.track-tab');
+            const currentTrackProgressTitle = document.getElementById('currentTrackProgressTitle');
+            const currentTrackProgressPercent = document.getElementById('currentTrackProgressPercent');
+            const currentTrackProgressBar = document.getElementById('currentTrackProgressBar');
+            const lessonsContainer = document.getElementById('lessonsContainer');
+            const resetLearningProgressBtn = document.getElementById('resetLearningProgressBtn');
+
+            // Quiz Elements
+            const quizStartScreen = document.getElementById('quizStartScreen');
+            const quizActiveScreen = document.getElementById('quizActiveScreen');
+            const quizResultsScreen = document.getElementById('quizResultsScreen');
+            const startQuizBtn = document.getElementById('startQuizBtn');
+            const quizBestScoreDisplay = document.getElementById('quizBestScoreDisplay');
+            const quizQuestionBadge = document.getElementById('quizQuestionBadge');
+            const quizCategoryTag = document.getElementById('quizCategoryTag');
+            const quizLiveScore = document.getElementById('quizLiveScore');
+            const quizProgressBar = document.getElementById('quizProgressBar');
+            const quizQuestionText = document.getElementById('quizQuestionText');
+            const quizOptionsList = document.getElementById('quizOptionsList');
+            const quizFeedbackBox = document.getElementById('quizFeedbackBox');
+            const feedbackIcon = document.getElementById('feedbackIcon');
+            const feedbackTitle = document.getElementById('feedbackTitle');
+            const feedbackExplanation = document.getElementById('feedbackExplanation');
+            const quizPrevBtn = document.getElementById('quizPrevBtn');
+            const quizNextBtn = document.getElementById('quizNextBtn');
+            const restartQuizBtn = document.getElementById('restartQuizBtn');
+            const toggleReviewBtn = document.getElementById('toggleReviewBtn');
+            const quizReviewSection = document.getElementById('quizReviewSection');
+            const quizReviewList = document.getElementById('quizReviewList');
+
+            // Favorites & History Elements
+            const favTabs = document.querySelectorAll('.fav-tab');
+            const favSectionFavorites = document.getElementById('favSectionFavorites');
+            const favSectionHistory = document.getElementById('favSectionHistory');
+            const favoritesGrid = document.getElementById('favoritesGrid');
+            const historyList = document.getElementById('historyList');
+            const favoritesEmptyState = document.getElementById('favoritesEmptyState');
+            const historyEmptyState = document.getElementById('historyEmptyState');
+            const favCountBadge = document.getElementById('favCountBadge');
+            const historyCountBadge = document.getElementById('historyCountBadge');
+            const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+            const favGoExploreBtn = document.getElementById('favGoExploreBtn');
+
+            // Modal Elements
+            const detailsModal = document.getElementById('detailsModal');
+            const modalCloseBtn = document.getElementById('modalCloseBtn');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalMeaning = document.getElementById('modalMeaning');
+            const modalCategory = document.getElementById('modalCategory');
+            const modalDifficulty = document.getElementById('modalDifficulty');
+            const modalFavBtn = document.getElementById('modalFavBtn');
+            const modalSafetyBanner = document.getElementById('modalSafetyBanner');
+            const modalSafetyText = document.getElementById('modalSafetyText');
+            const modalPurpose = document.getElementById('modalPurpose');
+            const modalSyntax = document.getElementById('modalSyntax');
+            const modalExample = document.getElementById('modalExample');
+            const modalExampleExplanation = document.getElementById('modalExampleExplanation');
+            const modalCopySyntaxBtn = document.getElementById('modalCopySyntaxBtn');
+            const modalCopyExampleBtn = document.getElementById('modalCopyExampleBtn');
+            const modalOptionsTbody = document.getElementById('modalOptionsTbody');
+            const modalUseCasesList = document.getElementById('modalUseCasesList');
+            const modalBeginnerNotes = document.getElementById('modalBeginnerNotes');
+            const modalRelatedChips = document.getElementById('modalRelatedChips');
+
+            // ================================================================
+            // STATIC DATA: LEARNING PATHS (15 Lessons Total)
+            // ================================================================
+            const LEARNING_PATHS = {
+                beginner: [
+                    {
+                        id: 'beg-1',
+                        title: 'Lesson 1: Terminal Orientation & Path Navigation',
+                        description: 'Understand how the Linux filesystem hierarchy operates and inspect your current working directory.',
+                        commands: ['pwd', 'cd', 'ls'],
+                        exercise: 'Run pwd to locate your current directory, then practice switching with cd and listing with ls -la.'
+                    },
+                    {
+                        id: 'beg-2',
+                        title: 'Lesson 2: Creating, Moving, and Renaming Files',
+                        description: 'Learn how to construct new folder structures and duplicate or rename assets cleanly.',
+                        commands: ['mkdir', 'touch', 'cp', 'mv'],
+                        exercise: 'Create a practice workspace using "mkdir practice", touch a test file inside, and duplicate it with cp.'
+                    },
+                    {
+                        id: 'beg-3',
+                        title: 'Lesson 3: Inspecting File Contents & Basic Text Viewing',
+                        description: 'Read file contents on the terminal without opening an interactive GUI editor.',
+                        commands: ['cat', 'head', 'tail'],
+                        exercise: 'Read a log file with head -n 5 to view headers, and observe the tail of the file with tail -n 10.'
+                    },
+                    {
+                        id: 'beg-4',
+                        title: 'Lesson 4: Safe Removal & Space Exploration',
+                        description: 'Learn the critical differences between deleting single files and removing directory trees safely.',
+                        commands: ['rm', 'df', 'du'],
+                        exercise: 'Check free disk space with df -h, check directory size with du -sh, and understand why rm has no recycle bin.'
+                    },
+                    {
+                        id: 'beg-5',
+                        title: 'Lesson 5: Visualizing Trees and Creating Soft Links',
+                        description: 'Organize project files into indented hierarchies and create symbolic links for quick shortcuts.',
+                        commands: ['tree', 'ln'],
+                        exercise: 'Inspect a nested directory with tree -L 2, then create a symbolic link with ln -s.'
+                    }
+                ],
+                intermediate: [
+                    {
+                        id: 'int-1',
+                        title: 'Lesson 6: Linux Permission Architecture (rwx)',
+                        description: 'Demystify octal and symbolic modes (r=4, w=2, x=1) to secure files and make shell scripts runnable.',
+                        commands: ['chmod', 'chown', 'chgrp', 'umask'],
+                        exercise: 'Understand how chmod 755 grants owner full rights while restricting write access from group and others.'
+                    },
+                    {
+                        id: 'int-2',
+                        title: 'Lesson 7: Searching and Pattern Filtering with Grep',
+                        description: 'Scan through thousands of log lines using regular expression searches and inverted filters.',
+                        commands: ['grep', 'wc', 'diff'],
+                        exercise: 'Combine grep and wc -l via pipes to count the exact number of error lines in a log file.'
+                    },
+                    {
+                        id: 'int-3',
+                        title: 'Lesson 8: Real-Time Process & Resource Monitoring',
+                        description: 'Discover what programs are actively consuming CPU and memory, and identify process IDs (PIDs).',
+                        commands: ['ps', 'top', 'htop', 'pgrep'],
+                        exercise: 'Run ps aux to inspect running programs, then use top to identify top CPU consumers.'
+                    },
+                    {
+                        id: 'int-4',
+                        title: 'Lesson 9: Terminating Processes & Signal Management',
+                        description: 'Master sending graceful SIGTERM (15) and immediate forced SIGKILL (9) signals safely.',
+                        commands: ['kill', 'killall'],
+                        exercise: 'Learn why you should always try plain kill (SIGTERM) before resorting to kill -9.'
+                    },
+                    {
+                        id: 'int-5',
+                        title: 'Lesson 10: Sorting, Deduplication, and Column Extraction',
+                        description: 'Process and clean text outputs using UNIX pipeline utilities.',
+                        commands: ['sort', 'uniq', 'awk', 'sed'],
+                        exercise: 'Sort a list of items and count unique occurrences using "sort | uniq -c".'
+                    }
+                ],
+                advanced: [
+                    {
+                        id: 'adv-1',
+                        title: 'Lesson 11: Controlling Background Services with systemd',
+                        description: 'Inspect, start, stop, and enable critical operating system services using systemctl.',
+                        commands: ['systemctl', 'journalctl'],
+                        exercise: 'Check service runtime status using "systemctl status <service>" and review boot logs with journalctl.'
+                    },
+                    {
+                        id: 'adv-2',
+                        title: 'Lesson 12: Network Connectivity & Socket Auditing',
+                        description: 'Test host reachability, inspect interface IP addresses, and verify listening port numbers.',
+                        commands: ['ping', 'ip', 'netstat', 'curl', 'wget'],
+                        exercise: 'Check listening sockets using "netstat -tuln" and test HTTP endpoints with "curl -I".'
+                    },
+                    {
+                        id: 'adv-3',
+                        title: 'Lesson 13: Remote Shell & Encrypted File Transfers',
+                        description: 'Connect to remote cloud instances over encrypted channels and transfer build artifacts.',
+                        commands: ['ssh', 'scp'],
+                        exercise: 'Understand SSH port specifications, key authentication, and remote path formatting in scp.'
+                    },
+                    {
+                        id: 'adv-4',
+                        title: 'Lesson 14: Storage Partitions & Filesystem Mounting',
+                        description: 'Safely inspect block devices, mount partitions into directory trees, and unmount clean caches.',
+                        commands: ['lsblk', 'mount', 'umount', 'fdisk'],
+                        exercise: 'Inspect block devices with lsblk -f, and understand why unmounting must be performed before disconnecting.'
+                    },
+                    {
+                        id: 'adv-5',
+                        title: 'Lesson 15: Scheduled Automation & Crontab Jobs',
+                        description: 'Configure automated background maintenance tasks using time-based crontab schedules.',
+                        commands: ['cron', 'nice'],
+                        exercise: 'Examine the 5-star crontab syntax (min hour day month weekday command) and schedule a job.'
+                    }
+                ]
+            };
+
+            // ================================================================
+            // STATIC DATA: DETERMINISTIC QUIZ (18 Comprehensive Questions)
+            // ================================================================
+            const QUIZ_QUESTIONS = [
+                {
+                    question: "Which Linux command displays the full, absolute path of the directory you are currently in?",
+                    category: "Files and directories",
+                    options: ["cd", "pwd", "ls", "whoami"],
+                    correct: 1,
+                    explanation: "'pwd' stands for 'Print Working Directory' and writes the full absolute pathname to standard output."
+                },
+                {
+                    question: "Which option with the 'ls' command lists all files including hidden files that start with a dot (.)?",
+                    category: "Files and directories",
+                    options: ["ls -h", "ls -l", "ls -a", "ls -t"],
+                    correct: 2,
+                    explanation: "The '-a' (all) option prevents ls from hiding entries starting with a period (.) such as .bashrc."
+                },
+                {
+                    question: "What permission mode is set when running 'chmod 755 script.sh'?",
+                    category: "File permissions",
+                    options: [
+                        "Full permissions (rwx) for owner; Read and Execute (rx) for group and others",
+                        "Read and Write for everyone",
+                        "Owner has read only; group has execute",
+                        "Complete unrestricted access (rwx) for all users"
+                    ],
+                    correct: 0,
+                    explanation: "7 = 4+2+1 (rwx for owner); 5 = 4+1 (rx for group); 5 = 4+1 (rx for others)."
+                },
+                {
+                    question: "Which tool is specifically designed to search for text patterns or regular expressions inside files?",
+                    category: "Text processing",
+                    options: ["find", "grep", "cat", "touch"],
+                    correct: 1,
+                    explanation: "'grep' (Global Regular Expression Print) processes text lines and prints those matching a pattern."
+                },
+                {
+                    question: "How do you inspect the runtime status and recent logs of a system service using systemd?",
+                    category: "System services",
+                    options: [
+                        "systemctl status <service>",
+                        "service <service> run",
+                        "ps -service <service>",
+                        "top -u <service>"
+                    ],
+                    correct: 0,
+                    explanation: "'systemctl status <service_name>' outputs the active state, main PID, memory usage, and recent logs without requiring sudo."
+                },
+                {
+                    question: "Which command reports filesystem disk space usage and free capacity in human-readable units (GB/MB)?",
+                    category: "Storage and disk usage",
+                    options: ["du -sh", "df -h", "fdisk -l", "lsblk"],
+                    correct: 1,
+                    explanation: "'df -h' (Disk Free, Human-readable) displays total, used, and available space on all mounted filesystems."
+                },
+                {
+                    question: "Which signal is sent when using 'kill -9 <PID>'?",
+                    category: "Processes and system monitoring",
+                    options: ["SIGTERM (Graceful exit)", "SIGKILL (Forced immediate kill)", "SIGHUP (Reload config)", "SIGSTOP (Pause)"],
+                    correct: 1,
+                    explanation: "Signal 9 is SIGKILL, which forces the Linux kernel to immediately destroy the process without cleanup."
+                },
+                {
+                    question: "What does the '-p' flag do when running 'mkdir -p project/src/tests'?",
+                    category: "Files and directories",
+                    options: [
+                        "Prompts for password",
+                        "Creates all intermediate parent directories if they don't already exist",
+                        "Sets read-only permissions",
+                        "Prevents creation of empty folders"
+                    ],
+                    correct: 1,
+                    explanation: "'-p' (parents) creates any missing intermediate directories and does not throw an error if folders exist."
+                },
+                {
+                    question: "Which command provides a live, dynamic interactive monitor showing CPU load average and top active processes?",
+                    category: "Processes and system monitoring",
+                    options: ["top", "ps", "uptime", "free"],
+                    correct: 0,
+                    explanation: "'top' provides a continuous real-time dashboard of system load, CPU usage per core, and running tasks."
+                },
+                {
+                    question: "Which command securely transfers files between two computers across a network using SSH encryption?",
+                    category: "Networking",
+                    options: ["ftp", "scp", "cp -net", "curl"],
+                    correct: 1,
+                    explanation: "'scp' (Secure Copy Protocol) uses the encrypted SSH protocol to copy files securely across hosts."
+                },
+                {
+                    question: "What does the command 'head -n 20 data.csv' do?",
+                    category: "Text processing",
+                    options: [
+                        "Prints the first 20 lines of data.csv",
+                        "Prints the last 20 lines of data.csv",
+                        "Counts the first 20 words in data.csv",
+                        "Deletes the first 20 lines of data.csv"
+                    ],
+                    correct: 0,
+                    explanation: "'head -n 20' prints the initial 20 lines of the target file to standard output."
+                },
+                {
+                    question: "How can you monitor an application log file in real-time as new lines are continuously appended to it?",
+                    category: "Text processing",
+                    options: ["cat -live server.log", "tail -f server.log", "head -f server.log", "grep -stream server.log"],
+                    correct: 1,
+                    explanation: "'tail -f' (follow) keeps the file open and immediately displays new lines written by the background program."
+                },
+                {
+                    question: "Which command changes user and group ownership of files and directories in Linux?",
+                    category: "File permissions",
+                    options: ["chmod", "chown", "passwd", "usermod"],
+                    correct: 1,
+                    explanation: "'chown' (Change Owner) alters the user and/or group owner of specified files."
+                },
+                {
+                    question: "What is the result of running: sed 's/localhost/127.0.0.1/g' config.txt?",
+                    category: "Text processing",
+                    options: [
+                        "Deletes all lines containing localhost",
+                        "Replaces every occurrence of 'localhost' with '127.0.0.1' in the output",
+                        "Sorts config.txt by IP address",
+                        "Permanently wipes config.txt"
+                    ],
+                    correct: 1,
+                    explanation: "In sed, 's/find/replace/g' substitutes 'find' with 'replace' globally across each input line."
+                },
+                {
+                    question: "Which command tests network reachability and measures round-trip latency to a host using ICMP packets?",
+                    category: "Networking",
+                    options: ["ping", "ip route", "traceroute", "netstat"],
+                    correct: 0,
+                    explanation: "'ping' sends ICMP ECHO_REQUEST packets to destination hosts to measure response latency and packet loss."
+                },
+                {
+                    question: "What is the primary package manager command used on Ubuntu and Debian-based Linux systems?",
+                    category: "Package management",
+                    options: ["dnf", "yum", "apt", "pacman"],
+                    correct: 2,
+                    explanation: "'apt' (Advanced Package Tool) is the modern standard package manager for Debian and Ubuntu."
+                },
+                {
+                    question: "Which command safely detaches a mounted filesystem or USB drive from the Linux directory tree?",
+                    category: "Storage and disk usage",
+                    options: ["unmount", "umount", "eject -all", "detach"],
+                    correct: 1,
+                    explanation: "The command is spelled 'umount' (without an 'n') and safely flushes pending disk write caches."
+                },
+                {
+                    question: "Which command calculates and displays the summary disk space consumed by a specific directory?",
+                    category: "Storage and disk usage",
+                    options: ["df -h", "du -sh <dir>", "lsblk", "wc -c"],
+                    correct: 1,
+                    explanation: "'du -sh' (Disk Usage, Summary, Human-readable) estimates the cumulative disk usage of the target directory."
+                }
+            ];
+
+            // ================================================================
+            // INITIALIZATION
+            // ================================================================
+            initApp();
+
+            async function initApp() {
+                setupEventListeners();
+                updateStatsUI();
+                renderFavoritesUI();
+                renderHistoryUI();
+                renderLearningTracksUI();
+                initSimulator();
+
+                // Quiz best score update
+                quizBestScoreDisplay.textContent = state.bestQuizScore ? `${state.bestQuizScore} / 18` : 'Not taken yet';
+
+                try {
+                    const resp = await fetch('/api/commands');
+                    const data = await resp.json();
+                    if (data.status === 'success') {
+                        state.commands = data.commands;
+                        state.commandsMap = {};
+                        data.commands.forEach(c => {
+                            state.commandsMap[c.name] = c;
+                        });
+                        statTotalCommands.textContent = state.commands.length;
+                        renderExplorerGrid();
+                    }
+
+                    const catResp = await fetch('/api/categories');
+                    const catData = await catResp.json();
+                    if (catData.status === 'success') {
+                        state.categories = catData.categories;
+                        renderCategoriesUI();
+                    }
+                } catch (e) {
+                    console.error("Initialization metadata fetch error", e);
+                }
+            }
+
+            // ================================================================
+            // NAVIGATION & VIEW SWITCHING
+            // ================================================================
+            function setupEventListeners() {
+                // Sidebar items
+                navItems.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const targetView = btn.getAttribute('data-view');
+                        switchView(targetView);
+                        if (window.innerWidth <= 860) {
+                            sidebar.classList.remove('open');
+                        }
+                    });
+                });
+
+                mobileMenuBtn.addEventListener('click', () => sidebar.classList.add('open'));
+                sidebarCloseBtn.addEventListener('click', () => sidebar.classList.remove('open'));
+
+                // Header & Hero buttons
+                jumpToSimulatorBtn.addEventListener('click', () => switchView('simulator'));
+                heroSimulatorBtn.addEventListener('click', () => switchView('simulator'));
+                heroExploreBtn.addEventListener('click', () => switchView('explorer'));
+                heroQuizBtn.addEventListener('click', () => switchView('quiz'));
+                favGoExploreBtn.addEventListener('click', () => switchView('explorer'));
+
+                // Dashboard Quick Launcher Chips
+                document.querySelectorAll('.btn-chip').forEach(chip => {
+                    chip.addEventListener('click', () => {
+                        const cmd = chip.getAttribute('data-quick');
+                        switchView('terminal');
+                        commandInput.value = cmd;
+                        clearBtn.style.visibility = 'visible';
+                        handleTerminalSubmit(cmd);
+                    });
+                });
+
+                // Header Search & Autocomplete
+                headerSearchInput.addEventListener('input', handleHeaderSearchInput);
+                headerSearchInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        const query = headerSearchInput.value.trim();
+                        if (query) {
+                            headerAutocompleteDropdown.style.display = 'none';
+                            openCommandDetails(query);
+                        }
+                    }
+                });
+
+                document.addEventListener('click', (e) => {
+                    if (!headerSearchInput.contains(e.target) && !headerAutocompleteDropdown.contains(e.target)) {
+                        headerAutocompleteDropdown.style.display = 'none';
+                    }
+                });
+
+                // Terminal Assistant Form Events
+                commandInput.addEventListener('input', () => {
+                    clearBtn.style.visibility = commandInput.value.trim() ? 'visible' : 'hidden';
+                });
+
+                clearBtn.addEventListener('click', () => {
+                    commandInput.value = '';
+                    clearBtn.style.visibility = 'hidden';
+                    commandInput.focus();
+                });
+
+                suggestionChips.addEventListener('click', (e) => {
+                    const target = e.target.closest('.chip');
+                    if (!target) return;
+                    const cmd = target.getAttribute('data-command');
+                    if (cmd) {
+                        commandInput.value = cmd;
+                        clearBtn.style.visibility = 'visible';
+                        handleTerminalSubmit(cmd);
+                    }
+                });
+
+                commandForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const raw = commandInput.value.trim();
+                    if (!raw) return;
+                    handleTerminalSubmit(raw);
+                });
+
+                // Explorer Search & Filters
+                explorerSearchInput.addEventListener('input', renderExplorerGrid);
+                explorerClearSearch.addEventListener('click', () => {
+                    explorerSearchInput.value = '';
+                    renderExplorerGrid();
+                });
+
+                difficultyFilterBar.addEventListener('click', (e) => {
+                    const pill = e.target.closest('.filter-pill');
+                    if (!pill) return;
+                    difficultyFilterBar.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+                    pill.classList.add('active');
+                    state.activeDiffFilter = pill.getAttribute('data-diff');
+                    renderExplorerGrid();
+                });
+
+                categoryPillBar.addEventListener('click', (e) => {
+                    const pill = e.target.closest('.cat-pill');
+                    if (!pill) return;
+                    categoryPillBar.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+                    pill.classList.add('active');
+                    state.activeCategoryFilter = pill.getAttribute('data-cat');
+                    renderExplorerGrid();
+                });
+
+                // Learning Path Tabs
+                trackTabs.forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        trackTabs.forEach(t => t.classList.remove('active'));
+                        tab.classList.add('active');
+                        state.activeTrack = tab.getAttribute('data-track');
+                        renderLearningTracksUI();
+                    });
+                });
+
+                resetLearningProgressBtn.addEventListener('click', () => {
+                    if (confirm("Are you sure you want to reset all completed lesson checkboxes?")) {
+                        state.learningProgress = {};
+                        saveStorage('lac_learning_progress', state.learningProgress);
+                        renderLearningTracksUI();
+                        updateStatsUI();
+                        showToast("Learning progress reset.");
+                    }
+                });
+
+                // Quiz Buttons
+                startQuizBtn.addEventListener('click', startQuizExecution);
+                quizPrevBtn.addEventListener('click', handleQuizPrev);
+                quizNextBtn.addEventListener('click', handleQuizNext);
+                restartQuizBtn.addEventListener('click', () => {
+                    quizResultsScreen.style.display = 'none';
+                    quizReviewSection.style.display = 'none';
+                    quizStartScreen.style.display = 'block';
+                    quizBestScoreDisplay.textContent = state.bestQuizScore ? `${state.bestQuizScore} / 18` : 'Not taken yet';
+                });
+                toggleReviewBtn.addEventListener('click', () => {
+                    const isVisible = quizReviewSection.style.display === 'block';
+                    quizReviewSection.style.display = isVisible ? 'none' : 'block';
+                    toggleReviewBtn.textContent = isVisible ? 'Review All Questions' : 'Hide Question Review';
+                });
+
+                // Favorites & History Tabs
+                favTabs.forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        favTabs.forEach(t => t.classList.remove('active'));
+                        tab.classList.add('active');
+                        const target = tab.getAttribute('data-favtab');
+                        if (target === 'favorites') {
+                            favSectionFavorites.style.display = 'block';
+                            favSectionHistory.style.display = 'none';
+                            clearHistoryBtn.style.display = 'none';
+                        } else {
+                            favSectionFavorites.style.display = 'none';
+                            favSectionHistory.style.display = 'block';
+                            clearHistoryBtn.style.display = 'inline-block';
+                        }
+                    });
+                });
+
+                clearHistoryBtn.addEventListener('click', () => {
+                    if (confirm("Clear all recorded command search history?")) {
+                        state.history = [];
+                        saveStorage('lac_history', state.history);
+                        renderHistoryUI();
+                        showToast("Search history cleared.");
+                    }
+                });
+
+                // Modal Close & Copy Buttons
+                modalCloseBtn.addEventListener('click', closeModal);
+                detailsModal.addEventListener('click', (e) => {
+                    if (e.target === detailsModal) closeModal();
+                });
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && detailsModal.style.display === 'flex') {
+                        closeModal();
+                    }
+                });
+
+                modalFavBtn.addEventListener('click', toggleModalFavorite);
+                modalCopySyntaxBtn.addEventListener('click', () => {
+                    copyToClipboard(modalSyntax.textContent, "Syntax copied to clipboard!");
+                });
+                modalCopyExampleBtn.addEventListener('click', () => {
+                    copyToClipboard(modalExample.textContent, "Example copied to clipboard!");
+                });
+            }
+
+            function switchView(viewName) {
+                state.currentView = viewName;
+
+                navItems.forEach(item => {
+                    item.classList.toggle('active', item.getAttribute('data-view') === viewName);
+                });
+
+                viewPanels.forEach(panel => {
+                    panel.classList.toggle('active', panel.id === `view-${viewName}`);
+                });
+
+                const titlesMap = {
+                    dashboard: 'Dashboard Overview',
+                    terminal: 'Terminal Assistant (Safe Sandbox)',
+                    simulator: 'Safe Linux Practice Simulator',
+                    explorer: 'Smart Command Explorer',
+                    learning: 'Structured Learning Paths',
+                    quiz: 'Interactive Command Quiz',
+                    favorites: 'Favorites & Search History',
+                    about: 'About Project — AIAD Mini Project'
+                };
+                pageTitle.textContent = titlesMap[viewName] || 'Linux Command Assistant';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                if (viewName === 'simulator') {
+                    setTimeout(() => simInput.focus(), 150);
+                }
+            }
+
+            // ================================================================
+            // HEADER AUTOCOMPLETE
+            // ================================================================
+            function handleHeaderSearchInput() {
+                const val = headerSearchInput.value.trim().toLowerCase();
+                if (!val) {
+                    headerAutocompleteDropdown.style.display = 'none';
+                    return;
+                }
+
+                const matches = state.commands.filter(c => 
+                    c.name.toLowerCase().startsWith(val) || 
+                    c.meaning.toLowerCase().includes(val)
+                ).slice(0, 6);
+
+                if (matches.length === 0) {
+                    headerAutocompleteDropdown.innerHTML = `<div class="auto-item empty">No matching command found</div>`;
+                    headerAutocompleteDropdown.style.display = 'block';
+                    return;
+                }
+
+                headerAutocompleteDropdown.innerHTML = '';
+                matches.forEach(item => {
+                    const row = document.createElement('div');
+                    row.className = 'auto-item';
+                    row.innerHTML = `
+                        <div class="auto-cmd">
+                            <span class="auto-name">${item.name}</span>
+                            <span class="auto-badge">${item.category}</span>
+                        </div>
+                        <div class="auto-meaning">${item.meaning}</div>
+                    `;
+                    row.addEventListener('click', () => {
+                        headerSearchInput.value = '';
+                        headerAutocompleteDropdown.style.display = 'none';
+                        openCommandDetails(item.name);
+                    });
+                    headerAutocompleteDropdown.appendChild(row);
+                });
+                headerAutocompleteDropdown.style.display = 'block';
+            }
+
+            // ================================================================
+            // DASHBOARD STATS & CATEGORIES
+            // ================================================================
+            function updateStatsUI() {
+                statFavoritesCount.textContent = state.favorites.length;
+                favCountBadge.textContent = state.favorites.length;
+                historyCountBadge.textContent = state.history.length;
+                statSessionViewed.textContent = state.sessionViewed;
+
+                const completedCount = Object.keys(state.learningProgress).filter(k => state.learningProgress[k]).length;
+                statLessonsCompleted.textContent = `${completedCount} / 15`;
+            }
+
+            function renderCategoriesUI() {
+                dashboardCategoriesGrid.innerHTML = '';
+                categoryPillBar.innerHTML = `<button type="button" class="cat-pill ${state.activeCategoryFilter === 'all' ? 'active' : ''}" data-cat="all">All Categories</button>`;
+
+                const catIcons = {
+                    "Files and directories": "&#128193;",
+                    "File permissions": "&#128274;",
+                    "Text processing": "&#128221;",
+                    "Processes and system monitoring": "&#9881;",
+                    "Networking": "&#127760;",
+                    "Package management": "&#128230;",
+                    "Storage and disk usage": "&#128190;",
+                    "System services": "&#9889;"
+                };
+
+                state.categories.forEach(cat => {
+                    const card = document.createElement('div');
+                    card.className = 'category-card';
+                    const icon = catIcons[cat.name] || "&#128196;";
+                    card.innerHTML = `
+                        <div class="cat-card-header">
+                            <span class="cat-icon">${icon}</span>
+                            <span class="cat-count-badge">${cat.count} Commands</span>
+                        </div>
+                        <h4 class="cat-title">${cat.name}</h4>
+                        <button type="button" class="cat-explore-btn">Browse Category &rarr;</button>
+                    `;
+                    card.addEventListener('click', () => {
+                        state.activeCategoryFilter = cat.name;
+                        switchView('explorer');
+                        document.querySelectorAll('.cat-pill').forEach(p => {
+                            p.classList.toggle('active', p.getAttribute('data-cat') === cat.name);
+                        });
+                        renderExplorerGrid();
+                    });
+                    dashboardCategoriesGrid.appendChild(card);
+
+                    const pill = document.createElement('button');
+                    pill.type = 'button';
+                    pill.className = `cat-pill ${state.activeCategoryFilter === cat.name ? 'active' : ''}`;
+                    pill.setAttribute('data-cat', cat.name);
+                    pill.textContent = cat.name;
+                    categoryPillBar.appendChild(pill);
+                });
+            }
+
+            // ================================================================
+            // SAFE LINUX PRACTICE SIMULATOR (FEATURE 2)
+            // Pure client-side virtual filesystem & parser — NO real execution!
+            // ================================================================
+            const INITIAL_VFS = {
+                name: "/",
+                type: "dir",
+                children: {
+                    "home": {
+                        name: "home",
+                        type: "dir",
+                        children: {
+                            "student": {
+                                name: "student",
+                                type: "dir",
+                                children: {
+                                    "documents": {
+                                        name: "documents",
+                                        type: "dir",
+                                        children: {
+                                            "notes.txt": { name: "notes.txt", type: "file", content: "Linux Learning Notes:\n1. pwd prints your current working directory.\n2. ls -la lists all files including hidden dotfiles.\n3. chmod 755 makes scripts executable.\n4. Always practice in this simulator before production!" },
+                                            "project.py": { name: "project.py", type: "file", content: "# AIAD Mini Project Demo\nprint('Hello from the Linux Command Assistant Simulator!')\n" }
+                                        }
+                                    },
+                                    "practice": {
+                                        name: "practice",
+                                        type: "dir",
+                                        children: {
+                                            "script.sh": { name: "script.sh", type: "file", content: "#!/bin/bash\necho 'Practice shell script running in browser simulation.'" }
+                                        }
+                                    },
+                                    "welcome.txt": {
+                                        name: "welcome.txt",
+                                        type: "file",
+                                        content: "Welcome to the Safe Linux Practice Simulator!\n\nThis is an educational sandbox that simulates a Linux environment entirely in JavaScript.\nCommands tested here do not execute on your computer.\n\nTry running: pwd, ls, cd documents, cat notes.txt, mkdir demo, touch file.txt"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "etc": {
+                        name: "etc",
+                        type: "dir",
+                        children: {
+                            "os-release": { name: "os-release", type: "file", content: "NAME=\"Linux Command Assistant Simulator\"\nVERSION=\"2.0 (AIAD College Edition)\"\nID=linux-assistant" },
+                            "hostname": { name: "hostname", type: "file", content: "aiad-simulator" }
+                        }
+                    },
+                    "var": {
+                        name: "var",
+                        type: "dir",
+                        children: {
+                            "log": {
+                                name: "log",
+                                type: "dir",
+                                children: {
+                                    "syslog": { name: "syslog", type: "file", content: "Oct 25 10:00:01 aiad-simulator systemd[1]: Virtual filesystem initialized.\nOct 25 10:00:02 aiad-simulator kernel: Safe practice sandbox ready for student demo." }
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            let vfs = loadStorage('lac_vfs_data', JSON.parse(JSON.stringify(INITIAL_VFS)));
+            let simCurrentPath = ['home', 'student'];
+            let simHistory = [];
+            let simHistoryIndex = -1;
+
+            function initSimulator() {
+                updateSimPrompt();
+                setupSimulatorEvents();
+            }
+
+            function setupSimulatorEvents() {
+                simInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        const raw = simInput.value;
+                        simInput.value = '';
+                        executeSimulatedCommand(raw);
+                    } else if (e.key === 'ArrowUp') {
+                        e.preventDefault();
+                        if (simHistory.length > 0) {
+                            if (simHistoryIndex < simHistory.length - 1) {
+                                simHistoryIndex++;
+                                simInput.value = simHistory[simHistory.length - 1 - simHistoryIndex];
+                            }
+                        }
+                    } else if (e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        if (simHistoryIndex > 0) {
+                            simHistoryIndex--;
+                            simInput.value = simHistory[simHistory.length - 1 - simHistoryIndex];
+                        } else if (simHistoryIndex === 0) {
+                            simHistoryIndex = -1;
+                            simInput.value = '';
+                        }
+                    }
+                });
+
+                simClearBtn.addEventListener('click', () => {
+                    simOutputStream.innerHTML = '';
+                    appendSimOutput("Terminal display cleared. Type 'help' for command reference.", 'sim-text-muted');
+                });
+
+                simResetBtn.addEventListener('click', () => {
+                    if (confirm("Reset the simulated practice filesystem to default state?")) {
+                        vfs = JSON.parse(JSON.stringify(INITIAL_VFS));
+                        simCurrentPath = ['home', 'student'];
+                        saveStorage('lac_vfs_data', vfs);
+                        updateSimPrompt();
+                        simOutputStream.innerHTML = '';
+                        appendSimOutput("Virtual practice filesystem reset to initial factory state.", 'sim-text-cyan');
+                        showToast("Simulator filesystem reset.");
+                    }
+                });
+
+                simHelpBtn.addEventListener('click', () => {
+                    executeSimulatedCommand('help');
+                });
+
+                // Simulator Shortcut Chips
+                document.querySelectorAll('.sim-chip').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const cmd = btn.getAttribute('data-simcmd');
+                        if (cmd) {
+                            simInput.value = cmd;
+                            executeSimulatedCommand(cmd);
+                            simInput.focus();
+                        }
+                    });
+                });
+            }
+
+            function getDisplayPath(pathArr) {
+                if (pathArr.length === 2 && pathArr[0] === 'home' && pathArr[1] === 'student') return '~';
+                if (pathArr.length > 2 && pathArr[0] === 'home' && pathArr[1] === 'student') {
+                    return '~/' + pathArr.slice(2).join('/');
+                }
+                if (pathArr.length === 0) return '/';
+                return '/' + pathArr.join('/');
+            }
+
+            function updateSimPrompt() {
+                const disp = getDisplayPath(simCurrentPath);
+                simPromptPath.textContent = disp;
+                simWindowTitle.textContent = `student@simulator: ${disp} (Virtual Bash)`;
+            }
+
+            function getNodeAt(pathArr) {
+                let curr = vfs;
+                for (let part of pathArr) {
+                    if (!curr.children || !curr.children[part]) return null;
+                    curr = curr.children[part];
+                }
+                return curr;
+            }
+
+            function resolvePath(targetStr) {
+                if (!targetStr || targetStr === '.' || targetStr === './') return [...simCurrentPath];
+                if (targetStr === '~' || targetStr === '~/') return ['home', 'student'];
+                if (targetStr.startsWith('~/')) {
+                    const sub = targetStr.slice(2).split('/').filter(Boolean);
+                    return ['home', 'student', ...sub];
+                }
+
+                let parts;
+                if (targetStr.startsWith('/')) {
+                    parts = targetStr.split('/').filter(Boolean);
+                } else {
+                    parts = [...simCurrentPath, ...targetStr.split('/').filter(Boolean)];
+                }
+
+                const resolved = [];
+                for (let p of parts) {
+                    if (p === '.') continue;
+                    if (p === '..') {
+                        if (resolved.length > 0) resolved.pop();
+                    } else {
+                        resolved.push(p);
+                    }
+                }
+                return resolved;
+            }
+
+            function appendSimOutput(htmlOrText, className) {
+                const div = document.createElement('div');
+                div.className = className || 'sim-output-line';
+                div.innerHTML = htmlOrText;
+                simOutputStream.appendChild(div);
+                const body = document.getElementById('simTerminalBody');
+                body.scrollTop = body.scrollHeight;
+            }
+
+            function executeSimulatedCommand(raw) {
+                const clean = raw.trim();
+                if (!clean) return;
+
+                simHistory.push(clean);
+                simHistoryIndex = -1;
+
+                // Echo the command line in the terminal view
+                const cmdEcho = document.createElement('div');
+                cmdEcho.className = 'sim-history-echo';
+                cmdEcho.innerHTML = `<span class="sim-user">student@simulator</span>:<span class="sim-path">${getDisplayPath(simCurrentPath)}</span>$ <span class="sim-cmd-text">${escapeHtml(clean)}</span>`;
+                simOutputStream.appendChild(cmdEcho);
+
+                // Handle redirection (e.g. echo "text" > file or >> file)
+                let redirectFile = null;
+                let redirectMode = null; // '>' or '>>'
+                let commandStr = clean;
+
+                if (clean.includes('>>')) {
+                    const split = clean.split('>>');
+                    commandStr = split[0].trim();
+                    redirectFile = split[1].trim();
+                    redirectMode = '>>';
+                } else if (clean.includes('>')) {
+                    const split = clean.split('>');
+                    commandStr = split[0].trim();
+                    redirectFile = split[1].trim();
+                    redirectMode = '>';
+                }
+
+                const tokens = commandStr.split(/\s+/).filter(Boolean);
+                if (tokens.length === 0) return;
+
+                const baseCmd = tokens[0].toLowerCase();
+                const args = tokens.slice(1);
+
+                // Strict Allowlist Execution — Pure Virtual Operations Only
+                switch (baseCmd) {
+                    case 'help':
+                        appendSimOutput(`
+<div class="sim-help-box">
+  <p class="sim-text-bold sim-text-cyan">Available Virtual Linux Commands:</p>
+  <table class="sim-help-table">
+    <tr><td><code>pwd</code></td><td>Print current virtual working directory path.</td></tr>
+    <tr><td><code>ls [-l|-a|-la] [dir]</code></td><td>List files and subdirectories.</td></tr>
+    <tr><td><code>cd [dir|..|~|/]</code></td><td>Change virtual working directory.</td></tr>
+    <tr><td><code>mkdir &lt;folder&gt;</code></td><td>Create a new virtual directory.</td></tr>
+    <tr><td><code>touch &lt;file&gt;</code></td><td>Create an empty virtual file.</td></tr>
+    <tr><td><code>cat &lt;file&gt;</code></td><td>Display text contents of a virtual file.</td></tr>
+    <tr><td><code>echo [text] [&gt;|&gt;&gt; file]</code></td><td>Print text or redirect/append output into a file.</td></tr>
+    <tr><td><code>rm [-r] &lt;target&gt;</code></td><td>Delete a virtual file or directory.</td></tr>
+    <tr><td><code>whoami</code></td><td>Display the simulated active user ('student').</td></tr>
+    <tr><td><code>date</code></td><td>Display virtual system timestamp.</td></tr>
+    <tr><td><code>clear</code></td><td>Clear terminal screen output.</td></tr>
+  </table>
+  <p class="sim-text-muted" style="margin-top:0.4rem;">Note: All actions are performed in browser memory on a simulated virtual filesystem.</p>
+</div>`);
+                        break;
+
+                    case 'pwd':
+                        appendSimOutput(simCurrentPath.length === 0 ? '/' : '/' + simCurrentPath.join('/'));
+                        break;
+
+                    case 'whoami':
+                        appendSimOutput('student');
+                        break;
+
+                    case 'date':
+                        appendSimOutput(new Date().toLocaleString());
+                        break;
+
+                    case 'clear':
+                        simOutputStream.innerHTML = '';
+                        break;
+
+                    case 'cd':
+                        if (args.length === 0 || args[0] === '~') {
+                            simCurrentPath = ['home', 'student'];
+                        } else {
+                            const targetPath = resolvePath(args[0]);
+                            const node = getNodeAt(targetPath);
+                            if (!node) {
+                                appendSimOutput(`cd: no such file or directory: ${args[0]}`, 'sim-text-rose');
+                            } else if (node.type !== 'dir') {
+                                appendSimOutput(`cd: not a directory: ${args[0]}`, 'sim-text-rose');
+                            } else {
+                                simCurrentPath = targetPath;
+                            }
+                        }
+                        updateSimPrompt();
+                        break;
+
+                    case 'ls': {
+                        let showLong = false;
+                        let showAll = false;
+                        let targetDir = null;
+
+                        for (let arg of args) {
+                            if (arg.startsWith('-')) {
+                                if (arg.includes('l')) showLong = true;
+                                if (arg.includes('a')) showAll = true;
+                            } else if (!targetDir) {
+                                targetDir = arg;
+                            }
+                        }
+
+                        const targetPath = targetDir ? resolvePath(targetDir) : simCurrentPath;
+                        const dirNode = getNodeAt(targetPath);
+
+                        if (!dirNode) {
+                            appendSimOutput(`ls: cannot access '${targetDir}': No such file or directory`, 'sim-text-rose');
+                            break;
+                        }
+
+                        if (dirNode.type === 'file') {
+                            appendSimOutput(dirNode.name);
+                            break;
+                        }
+
+                        const entries = Object.keys(dirNode.children || {}).sort();
+                        if (entries.length === 0 && !showAll) {
+                            // Empty directory
+                            break;
+                        }
+
+                        if (showLong) {
+                            let outHtml = `<table class="sim-ls-table">`;
+                            if (showAll) {
+                                outHtml += `<tr><td>drwxr-xr-x</td><td>2</td><td>student</td><td>student</td><td>4096</td><td>Oct 25 10:00</td><td class="sim-dir">.</td></tr>`;
+                                outHtml += `<tr><td>drwxr-xr-x</td><td>3</td><td>student</td><td>student</td><td>4096</td><td>Oct 25 10:00</td><td class="sim-dir">..</td></tr>`;
+                            }
+                            entries.forEach(name => {
+                                const item = dirNode.children[name];
+                                const isDir = item.type === 'dir';
+                                const perm = isDir ? 'drwxr-xr-x' : '-rw-r--r--';
+                                const size = isDir ? 4096 : (item.content ? item.content.length : 0);
+                                const cls = isDir ? 'sim-dir' : 'sim-file';
+                                outHtml += `<tr><td>${perm}</td><td>1</td><td>student</td><td>student</td><td>${size}</td><td>Oct 25 10:00</td><td class="${cls}">${name}${isDir ? '/' : ''}</td></tr>`;
+                            });
+                            outHtml += `</table>`;
+                            appendSimOutput(outHtml);
+                        } else {
+                            let lineHtml = '';
+                            if (showAll) {
+                                lineHtml += `<span class="sim-dir">.</span>  <span class="sim-dir">..</span>  `;
+                            }
+                            entries.forEach(name => {
+                                const item = dirNode.children[name];
+                                const cls = item.type === 'dir' ? 'sim-dir' : 'sim-file';
+                                lineHtml += `<span class="${cls}">${name}${item.type === 'dir' ? '/' : ''}</span>&nbsp;&nbsp;`;
+                            });
+                            appendSimOutput(lineHtml);
+                        }
+                        break;
+                    }
+
+                    case 'mkdir': {
+                        if (args.length === 0) {
+                            appendSimOutput("mkdir: missing operand", 'sim-text-rose');
+                            break;
+                        }
+                        const dirName = args[0].replace(/\/+$/, '');
+                        const curr = getNodeAt(simCurrentPath);
+                        if (!curr || curr.type !== 'dir') break;
+
+                        if (curr.children[dirName]) {
+                            appendSimOutput(`mkdir: cannot create directory '${dirName}': File exists`, 'sim-text-rose');
+                        } else {
+                            curr.children[dirName] = { name: dirName, type: 'dir', children: {} };
+                            saveStorage('lac_vfs_data', vfs);
+                        }
+                        break;
+                    }
+
+                    case 'touch': {
+                        if (args.length === 0) {
+                            appendSimOutput("touch: missing file operand", 'sim-text-rose');
+                            break;
+                        }
+                        const filename = args[0];
+                        const curr = getNodeAt(simCurrentPath);
+                        if (!curr || curr.type !== 'dir') break;
+
+                        if (!curr.children[filename]) {
+                            curr.children[filename] = { name: filename, type: 'file', content: '' };
+                            saveStorage('lac_vfs_data', vfs);
+                        }
+                        break;
+                    }
+
+                    case 'cat': {
+                        if (args.length === 0) {
+                            appendSimOutput("cat: missing operand", 'sim-text-rose');
+                            break;
+                        }
+                        const targetPath = resolvePath(args[0]);
+                        const node = getNodeAt(targetPath);
+                        if (!node) {
+                            appendSimOutput(`cat: ${args[0]}: No such file or directory`, 'sim-text-rose');
+                        } else if (node.type === 'dir') {
+                            appendSimOutput(`cat: ${args[0]}: Is a directory`, 'sim-text-rose');
+                        } else {
+                            appendSimOutput(escapeHtml(node.content || '').replace(/\n/g, '<br>'));
+                        }
+                        break;
+                    }
+
+                    case 'echo': {
+                        let text = args.join(' ');
+                        // Strip wrapping quotes if present
+                        if ((text.startsWith('"') && text.endsWith('"')) || (text.startsWith("'") && text.endsWith("'"))) {
+                            text = text.slice(1, -1);
+                        }
+
+                        if (redirectFile) {
+                            const curr = getNodeAt(simCurrentPath);
+                            if (curr && curr.type === 'dir') {
+                                if (redirectMode === '>>' && curr.children[redirectFile] && curr.children[redirectFile].type === 'file') {
+                                    curr.children[redirectFile].content += '\n' + text;
+                                } else {
+                                    curr.children[redirectFile] = { name: redirectFile, type: 'file', content: text };
+                                }
+                                saveStorage('lac_vfs_data', vfs);
+                            }
+                        } else {
+                            appendSimOutput(escapeHtml(text));
+                        }
+                        break;
+                    }
+
+                    case 'rm': {
+                        let isRecursive = false;
+                        let target = null;
+                        for (let a of args) {
+                            if (a === '-r' || a === '-rf' || a === '-R') isRecursive = true;
+                            else if (!target) target = a;
+                        }
+                        if (!target) {
+                            appendSimOutput("rm: missing operand", 'sim-text-rose');
+                            break;
+                        }
+                        const curr = getNodeAt(simCurrentPath);
+                        if (!curr || curr.type !== 'dir') break;
+
+                        if (!curr.children[target]) {
+                            appendSimOutput(`rm: cannot remove '${target}': No such file or directory`, 'sim-text-rose');
+                        } else if (curr.children[target].type === 'dir' && !isRecursive) {
+                            appendSimOutput(`rm: cannot remove '${target}': Is a directory (use 'rm -r')`, 'sim-text-rose');
+                        } else {
+                            delete curr.children[target];
+                            saveStorage('lac_vfs_data', vfs);
+                        }
+                        break;
+                    }
+
+                    default:
+                        appendSimOutput(`${escapeHtml(baseCmd)}: command not found. Type 'help' for available simulator commands.`, 'sim-text-rose');
+                        break;
+                }
+            }
+
+            function escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+
+            // ================================================================
+            // COMMAND EXPLORER RENDERING
+            // ================================================================
+            function renderExplorerGrid() {
+                const query = explorerSearchInput.value.trim().toLowerCase();
+                let filtered = state.commands;
+
+                if (state.activeCategoryFilter !== 'all') {
+                    filtered = filtered.filter(c => c.category === state.activeCategoryFilter);
+                }
+
+                if (state.activeDiffFilter !== 'all') {
+                    filtered = filtered.filter(c => c.difficulty === state.activeDiffFilter);
+                }
+
+                if (query) {
+                    filtered = filtered.filter(c => 
+                        c.name.toLowerCase().includes(query) ||
+                        c.meaning.toLowerCase().includes(query) ||
+                        c.purpose.toLowerCase().includes(query) ||
+                        c.syntax.toLowerCase().includes(query)
+                    );
+                }
+
+                resultsCount.textContent = `Showing ${filtered.length} of ${state.commands.length} commands`;
+                commandsGrid.innerHTML = '';
+
+                if (filtered.length === 0) {
+                    commandsGrid.innerHTML = `
+                        <div class="empty-state-card" style="grid-column: 1 / -1;">
+                            <span class="empty-icon">&#128270;</span>
+                            <h4>No matching Linux commands found</h4>
+                            <p>Try clearing your filter or searching for a different keyword like "grep", "chmod", or "mkdir".</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                filtered.forEach(item => {
+                    const isFav = state.favorites.includes(item.name);
+                    const card = document.createElement('div');
+                    card.className = 'command-explorer-card';
+
+                    const diffClass = `diff-${item.difficulty.toLowerCase()}`;
+                    card.innerHTML = `
+                        <div class="cmd-card-top">
+                            <div class="cmd-id-group">
+                                <span class="cmd-name-text">${item.name}</span>
+                                <span class="cmd-diff-badge ${diffClass}">${item.difficulty}</span>
+                            </div>
+                            <button type="button" class="btn-card-star ${isFav ? 'active' : ''}" title="${isFav ? 'Remove favorite' : 'Bookmark'}" aria-label="Bookmark ${item.name}">
+                                &#9733;
+                            </button>
+                        </div>
+                        <div class="cmd-meaning-label">${item.meaning}</div>
+                        <p class="cmd-purpose-snippet">${item.purpose}</p>
+                        <div class="cmd-card-bottom">
+                            <span class="cmd-cat-tag">${item.category}</span>
+                            <button type="button" class="btn-view-details">Inspect &rarr;</button>
+                        </div>
+                    `;
+
+                    const starBtn = card.querySelector('.btn-card-star');
+                    starBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        toggleFavorite(item.name);
+                        starBtn.classList.toggle('active', state.favorites.includes(item.name));
+                    });
+
+                    card.addEventListener('click', () => {
+                        openCommandDetails(item.name);
+                    });
+
+                    commandsGrid.appendChild(card);
+                });
+            }
+
+            // ================================================================
+            // COMMAND DETAILS MODAL
+            // ================================================================
+            async function openCommandDetails(commandName) {
+                let details = state.commandsMap[commandName];
+
+                if (!details) {
+                    try {
+                        const resp = await fetch('/api/command', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ command: commandName })
+                        });
+                        const data = await resp.json();
+                        if (data.found) {
+                            details = data.data;
+                            state.commandsMap[details.name] = details;
+                        }
+                    } catch (e) {}
+                }
+
+                if (!details) {
+                    showToast(`Command '${commandName}' not found.`);
+                    return;
+                }
+
+                state.activeModalCommand = details;
+                state.sessionViewed += 1;
+                recordHistory(details.name, true);
+                updateStatsUI();
+
+                modalTitle.textContent = details.name;
+                modalMeaning.textContent = `(${details.meaning})`;
+                modalCategory.textContent = details.category;
+                modalDifficulty.textContent = details.difficulty;
+                modalPurpose.textContent = details.purpose;
+                modalSyntax.textContent = details.syntax;
+                modalExample.textContent = details.example;
+                modalExampleExplanation.textContent = details.example_explanation;
+                modalBeginnerNotes.textContent = details.beginner_notes || "Practice running this command with different options to build muscle memory.";
+
+                if (details.safety_warning) {
+                    modalSafetyText.textContent = details.safety_warning;
+                    modalSafetyBanner.style.display = 'flex';
+                } else {
+                    modalSafetyBanner.style.display = 'none';
+                }
+
+                const isFav = state.favorites.includes(details.name);
+                modalFavBtn.classList.toggle('active', isFav);
+
+                modalOptionsTbody.innerHTML = '';
+                if (details.options && details.options.length > 0) {
+                    details.options.forEach(opt => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `<td><code>${opt.flag}</code></td><td>${opt.desc}</td>`;
+                        modalOptionsTbody.appendChild(tr);
+                    });
+                    document.getElementById('modalOptionsBlock').style.display = 'block';
+                } else {
+                    document.getElementById('modalOptionsBlock').style.display = 'none';
+                }
+
+                modalUseCasesList.innerHTML = '';
+                if (details.use_cases && details.use_cases.length > 0) {
+                    details.use_cases.forEach(u => {
+                        const li = document.createElement('li');
+                        li.textContent = u;
+                        modalUseCasesList.appendChild(li);
+                    });
+                    document.getElementById('modalUseCasesBlock').style.display = 'block';
+                } else {
+                    document.getElementById('modalUseCasesBlock').style.display = 'none';
+                }
+
+                modalRelatedChips.innerHTML = '';
+                if (details.related_commands && details.related_commands.length > 0) {
+                    details.related_commands.forEach(rel => {
+                        const chip = document.createElement('button');
+                        chip.type = 'button';
+                        chip.className = 'chip';
+                        chip.textContent = rel;
+                        chip.addEventListener('click', () => {
+                            openCommandDetails(rel);
+                        });
+                        modalRelatedChips.appendChild(chip);
+                    });
+                    document.getElementById('modalRelatedBlock').style.display = 'block';
+                } else {
+                    document.getElementById('modalRelatedBlock').style.display = 'none';
+                }
+
+                detailsModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeModal() {
+                detailsModal.style.display = 'none';
+                document.body.style.overflow = '';
+                state.activeModalCommand = null;
+            }
+
+            function toggleModalFavorite() {
+                if (!state.activeModalCommand) return;
+                const name = state.activeModalCommand.name;
+                toggleFavorite(name);
+                const isFav = state.favorites.includes(name);
+                modalFavBtn.classList.toggle('active', isFav);
+                renderExplorerGrid();
+            }
+
+            // ================================================================
+            // FAVORITES & HISTORY MANAGEMENT
+            // ================================================================
+            function toggleFavorite(commandName) {
+                const idx = state.favorites.indexOf(commandName);
+                if (idx > -1) {
+                    state.favorites.splice(idx, 1);
+                    showToast(`Removed '${commandName}' from favorites.`);
+                } else {
+                    state.favorites.push(commandName);
+                    showToast(`Added '${commandName}' to favorites.`);
+                }
+                saveStorage('lac_favorites', state.favorites);
+                updateStatsUI();
+                renderFavoritesUI();
+            }
+
+            function recordHistory(cmdText, found) {
+                state.history.unshift({
+                    command: cmdText,
+                    timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                    found: found
+                });
+                if (state.history.length > 30) state.history.pop();
+                saveStorage('lac_history', state.history);
+                renderHistoryUI();
+                updateStatsUI();
+            }
+
+            function renderFavoritesUI() {
+                favoritesGrid.innerHTML = '';
+                if (state.favorites.length === 0) {
+                    favoritesEmptyState.style.display = 'block';
+                    return;
+                }
+                favoritesEmptyState.style.display = 'none';
+
+                state.favorites.forEach(cmdName => {
+                    const item = state.commandsMap[cmdName] || { name: cmdName, meaning: 'Saved Command', category: 'General' };
+                    const card = document.createElement('div');
+                    card.className = 'favorite-card';
+                    card.innerHTML = `
+                        <div class="fav-card-head">
+                            <span class="fav-cmd-name">${item.name}</span>
+                            <button type="button" class="btn-remove-fav" title="Remove">&times;</button>
+                        </div>
+                        <p class="fav-meaning">${item.meaning}</p>
+                        <div class="fav-actions">
+                            <button type="button" class="btn-fav-open">Open Details</button>
+                            <button type="button" class="btn-fav-term">Run in Assistant</button>
+                        </div>
+                    `;
+
+                    card.querySelector('.btn-remove-fav').addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        toggleFavorite(item.name);
+                    });
+
+                    card.querySelector('.btn-fav-open').addEventListener('click', () => {
+                        openCommandDetails(item.name);
+                    });
+
+                    card.querySelector('.btn-fav-term').addEventListener('click', () => {
+                        switchView('terminal');
+                        commandInput.value = item.name;
+                        clearBtn.style.visibility = 'visible';
+                        handleTerminalSubmit(item.name);
+                    });
+
+                    favoritesGrid.appendChild(card);
+                });
+            }
+
+            function renderHistoryUI() {
+                historyList.innerHTML = '';
+                if (state.history.length === 0) {
+                    historyEmptyState.style.display = 'block';
+                    return;
+                }
+                historyEmptyState.style.display = 'none';
+
+                state.history.forEach(item => {
+                    const row = document.createElement('div');
+                    row.className = 'history-item';
+                    row.innerHTML = `
+                        <div class="hist-left">
+                            <span class="hist-icon">$</span>
+                            <span class="hist-cmd">${item.command}</span>
+                            <span class="hist-time">${item.timestamp}</span>
+                        </div>
+                        <div class="hist-actions">
+                            <button type="button" class="btn-icon-sm btn-reopen" title="Reopen query">View</button>
+                        </div>
+                    `;
+
+                    row.querySelector('.btn-reopen').addEventListener('click', () => {
+                        switchView('terminal');
+                        commandInput.value = item.command;
+                        clearBtn.style.visibility = 'visible';
+                        handleTerminalSubmit(item.command);
+                    });
+
+                    historyList.appendChild(row);
+                });
+            }
+
+            // ================================================================
+            // LEARNING TRACKS
+            // ================================================================
+            function renderLearningTracksUI() {
+                const lessons = LEARNING_PATHS[state.activeTrack] || [];
+                const titles = {
+                    beginner: 'Beginner Track Progress',
+                    intermediate: 'Intermediate Track Progress',
+                    advanced: 'Advanced Track Progress'
+                };
+                currentTrackProgressTitle.textContent = titles[state.activeTrack] || 'Track Progress';
+
+                let completedInTrack = 0;
+                lessons.forEach(l => {
+                    if (state.learningProgress[l.id]) completedInTrack++;
+                });
+
+                const pct = lessons.length > 0 ? Math.round((completedInTrack / lessons.length) * 100) : 0;
+                currentTrackProgressPercent.textContent = `${pct}% (${completedInTrack}/${lessons.length} Completed)`;
+                currentTrackProgressBar.style.width = `${pct}%`;
+
+                lessonsContainer.innerHTML = '';
+                lessons.forEach(lesson => {
+                    const isDone = !!state.learningProgress[lesson.id];
+                    const card = document.createElement('div');
+                    card.className = `lesson-card ${isDone ? 'completed' : ''}`;
+
+                    const cmdsPills = lesson.commands.map(c => `<button type="button" class="lesson-cmd-pill" data-cmd="${c}">${c}</button>`).join(' ');
+
+                    card.innerHTML = `
+                        <div class="lesson-header">
+                            <div class="lesson-check-wrap">
+                                <input type="checkbox" id="check-${lesson.id}" class="lesson-checkbox" ${isDone ? 'checked' : ''} />
+                                <label for="check-${lesson.id}" class="lesson-title">${lesson.title}</label>
+                            </div>
+                            <span class="lesson-status-pill">${isDone ? 'Completed' : 'In Progress'}</span>
+                        </div>
+                        <p class="lesson-desc">${lesson.description}</p>
+                        <div class="lesson-cmds-row">
+                            <span class="cmds-label">Key Commands:</span>
+                            ${cmdsPills}
+                        </div>
+                        <div class="lesson-exercise-box">
+                            <span class="exercise-label">Hands-on Challenge:</span>
+                            <p class="exercise-text">${lesson.exercise}</p>
+                        </div>
+                    `;
+
+                    const checkbox = card.querySelector('.lesson-checkbox');
+                    checkbox.addEventListener('change', () => {
+                        state.learningProgress[lesson.id] = checkbox.checked;
+                        saveStorage('lac_learning_progress', state.learningProgress);
+                        renderLearningTracksUI();
+                        updateStatsUI();
+                        showToast(checkbox.checked ? "Lesson marked complete!" : "Lesson unchecked.");
+                    });
+
+                    card.querySelectorAll('.lesson-cmd-pill').forEach(btn => {
+                        btn.addEventListener('click', () => {
+                            const cmd = btn.getAttribute('data-cmd');
+                            openCommandDetails(cmd);
+                        });
+                    });
+
+                    lessonsContainer.appendChild(card);
+                });
+            }
+
+            // ================================================================
+            // INTERACTIVE QUIZ ENGINE (Improved Duplicate-Proof Scoring & Review)
+            // ================================================================
+            function startQuizExecution() {
+                state.currentQuizIndex = 0;
+                state.quizAnswered = {};
+                quizStartScreen.style.display = 'none';
+                quizResultsScreen.style.display = 'none';
+                quizActiveScreen.style.display = 'block';
+                quizLiveScore.textContent = '0';
+                renderQuizQuestion();
+            }
+
+            function computeQuizScore() {
+                return Object.values(state.quizAnswered).filter(ans => ans.isCorrect).length;
+            }
+
+            function renderQuizQuestion() {
+                const q = QUIZ_QUESTIONS[state.currentQuizIndex];
+                if (!q) return;
+
+                const total = QUIZ_QUESTIONS.length;
+                quizQuestionBadge.textContent = `Question ${state.currentQuizIndex + 1} of ${total}`;
+                quizCategoryTag.textContent = q.category;
+                quizProgressBar.style.width = `${((state.currentQuizIndex + 1) / total) * 100}%`;
+                quizLiveScore.textContent = computeQuizScore();
+
+                quizQuestionText.textContent = q.question;
+                quizOptionsList.innerHTML = '';
+                quizFeedbackBox.style.display = 'none';
+                quizNextBtn.style.display = 'none';
+                quizPrevBtn.disabled = (state.currentQuizIndex === 0);
+
+                const answered = state.quizAnswered[state.currentQuizIndex];
+
+                q.options.forEach((optText, idx) => {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'quiz-option-btn';
+                    btn.innerHTML = `<span class="opt-letter">${String.fromCharCode(65 + idx)}</span> <span class="opt-text">${optText}</span>`;
+
+                    if (answered !== undefined) {
+                        btn.disabled = true;
+                        if (idx === q.correct) btn.classList.add('correct');
+                        if (answered.selected === idx && !answered.isCorrect) btn.classList.add('incorrect');
+                    } else {
+                        btn.addEventListener('click', () => handleQuizOptionSelect(idx));
+                    }
+
+                    quizOptionsList.appendChild(btn);
+                });
+
+                if (answered !== undefined) {
+                    showQuizFeedback(answered.isCorrect, q.explanation);
+                    quizNextBtn.style.display = 'inline-block';
+                    if (state.currentQuizIndex === total - 1) {
+                        quizNextBtn.textContent = 'View Final Results 🏁';
+                    } else {
+                        quizNextBtn.textContent = 'Next Question →';
+                    }
+                }
+            }
+
+            function handleQuizOptionSelect(selectedIdx) {
+                const q = QUIZ_QUESTIONS[state.currentQuizIndex];
+                const isCorrect = (selectedIdx === q.correct);
+
+                // Record answer state — prevents duplicate scoring
+                state.quizAnswered[state.currentQuizIndex] = {
+                    selected: selectedIdx,
+                    isCorrect: isCorrect,
+                    question: q.question,
+                    correctIdx: q.correct,
+                    explanation: q.explanation
+                };
+
+                quizLiveScore.textContent = computeQuizScore();
+
+                const optionBtns = quizOptionsList.querySelectorAll('.quiz-option-btn');
+                optionBtns.forEach((btn, idx) => {
+                    btn.disabled = true;
+                    if (idx === q.correct) btn.classList.add('correct');
+                    if (idx === selectedIdx && !isCorrect) btn.classList.add('incorrect');
+                });
+
+                showQuizFeedback(isCorrect, q.explanation);
+                quizNextBtn.style.display = 'inline-block';
+                if (state.currentQuizIndex === QUIZ_QUESTIONS.length - 1) {
+                    quizNextBtn.textContent = 'View Final Results 🏁';
+                } else {
+                    quizNextBtn.textContent = 'Next Question →';
+                }
+            }
+
+            function showQuizFeedback(isCorrect, explanationText) {
+                quizFeedbackBox.style.display = 'flex';
+                if (isCorrect) {
+                    quizFeedbackBox.className = 'quiz-feedback-box correct';
+                    feedbackIcon.innerHTML = '&#10003;';
+                    feedbackTitle.textContent = 'Correct Answer!';
+                } else {
+                    quizFeedbackBox.className = 'quiz-feedback-box incorrect';
+                    feedbackIcon.innerHTML = '&#10007;';
+                    feedbackTitle.textContent = 'Incorrect';
+                }
+                feedbackExplanation.textContent = explanationText;
+            }
+
+            function handleQuizNext() {
+                if (state.currentQuizIndex < QUIZ_QUESTIONS.length - 1) {
+                    state.currentQuizIndex++;
+                    renderQuizQuestion();
+                } else {
+                    finishQuiz();
+                }
+            }
+
+            function handleQuizPrev() {
+                if (state.currentQuizIndex > 0) {
+                    state.currentQuizIndex--;
+                    renderQuizQuestion();
+                }
+            }
+
+            function finishQuiz() {
+                quizActiveScreen.style.display = 'none';
+                quizResultsScreen.style.display = 'block';
+
+                const total = QUIZ_QUESTIONS.length;
+                const score = computeQuizScore();
+                const pct = Math.round((score / total) * 100);
+
+                if (score > state.bestQuizScore) {
+                    state.bestQuizScore = score;
+                    saveStorage('lac_best_quiz_score', score);
+                }
+
+                document.getElementById('finalScoreVal').textContent = score;
+                document.getElementById('finalTotalVal').textContent = total;
+                document.getElementById('finalPercentVal').textContent = `${pct}% Accuracy`;
+                document.getElementById('finalCorrectCount').textContent = score;
+                document.getElementById('finalIncorrectCount').textContent = total - score;
+                document.getElementById('finalBestScoreVal').textContent = `${state.bestQuizScore} / ${total}`;
+
+                let rank = "Linux Novice 🌱";
+                let trophy = "&#127793;";
+                if (pct >= 85) { rank = "Linux SysAdmin Master 🏆"; trophy = "&#127942;"; }
+                else if (pct >= 65) { rank = "Linux Power User ⚡"; trophy = "&#9889;"; }
+                else if (pct >= 40) { rank = "Terminal Explorer 🧭"; trophy = "&#129517;"; }
+
+                document.getElementById('resultsRankTitle').textContent = rank;
+                document.getElementById('resultsTrophyIcon').innerHTML = trophy;
+
+                // Render Review List
+                renderQuizReviewList();
+                showToast(`Quiz completed! Score: ${score}/${total}`);
+            }
+
+            function renderQuizReviewList() {
+                quizReviewList.innerHTML = '';
+                QUIZ_QUESTIONS.forEach((q, idx) => {
+                    const ans = state.quizAnswered[idx];
+                    const isDone = ans !== undefined;
+                    const isCorrect = isDone && ans.isCorrect;
+
+                    const item = document.createElement('div');
+                    item.className = `review-item ${isCorrect ? 'rev-correct' : 'rev-incorrect'}`;
+
+                    const userChoiceText = isDone ? q.options[ans.selected] : "Not Answered";
+                    const correctChoiceText = q.options[q.correct];
+
+                    item.innerHTML = `
+                        <div class="rev-header">
+                            <span class="rev-num">Q${idx + 1}.</span>
+                            <span class="rev-question">${q.question}</span>
+                            <span class="rev-badge ${isCorrect ? 'badge-correct' : 'badge-wrong'}">${isCorrect ? 'Correct ✓' : 'Incorrect ✗'}</span>
+                        </div>
+                        <div class="rev-answers">
+                            <p><strong>Your Answer:</strong> <span class="${isCorrect ? 'text-success' : 'text-danger'}">${escapeHtml(userChoiceText)}</span></p>
+                            ${!isCorrect ? `<p><strong>Correct Answer:</strong> <span class="text-success">${escapeHtml(correctChoiceText)}</span></p>` : ''}
+                        </div>
+                        <p class="rev-exp"><strong>Explanation:</strong> ${q.explanation}</p>
+                    `;
+                    quizReviewList.appendChild(item);
+                });
+            }
+
+            // ================================================================
+            // PRESERVED TERMINAL ASSISTANT LOGIC (Safe DOM API)
+            // ================================================================
+            async function handleTerminalSubmit(cmdText) {
+                renderUserMessage(cmdText);
+                commandInput.value = '';
+                clearBtn.style.visibility = 'hidden';
+                submitBtn.disabled = true;
+
+                showLoading(true);
+                scrollToBottom();
+
+                try {
+                    const response = await fetch('/api/command', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ command: cmdText })
+                    });
+
+                    const data = await response.json();
+                    showLoading(false);
+
+                    recordHistory(cmdText, data.found);
+
+                    if (response.ok && data.found) {
+                        state.sessionViewed += 1;
+                        updateStatsUI();
+                        renderExplanationCard(data.data);
+                    } else {
+                        const fallbackMsg = data.message || "I couldn't find this command in my knowledge base. Please try ls, pwd, mkdir, cp, mv, grep, chmod, or systemctl.";
+                        renderNoticeCard(fallbackMsg, false, data.close_matches);
+                    }
+                } catch (error) {
+                    showLoading(false);
+                    renderNoticeCard("Unable to connect to the backend server. Please verify the Flask app is running.", true);
+                } finally {
+                    submitBtn.disabled = false;
+                    commandInput.focus();
+                    scrollToBottom();
+                }
+            }
+
+            function renderUserMessage(text) {
+                const row = document.createElement('div');
+                row.className = 'message-row user';
+
+                const bubble = document.createElement('div');
+                bubble.className = 'message-bubble user-bubble';
+
+                const promptSpan = document.createElement('span');
+                promptSpan.className = 'bubble-prompt';
+                promptSpan.textContent = '$ ';
+
+                const code = document.createElement('code');
+                code.className = 'user-cmd-code';
+                code.textContent = text;
+
+                bubble.appendChild(promptSpan);
+                bubble.appendChild(code);
+
+                const avatar = document.createElement('div');
+                avatar.className = 'avatar user-avatar';
+                avatar.textContent = 'You';
+
+                row.appendChild(bubble);
+                row.appendChild(avatar);
+                chatContainer.appendChild(row);
+            }
+
+            function renderExplanationCard(item) {
+                const row = document.createElement('div');
+                row.className = 'message-row assistant';
+
+                const avatar = document.createElement('div');
+                avatar.className = 'avatar assistant-avatar';
+                avatar.textContent = '$';
+
+                const bubble = document.createElement('div');
+                bubble.className = 'message-bubble assistant-bubble';
+
+                const card = document.createElement('div');
+                card.className = 'explanation-card';
+
+                const header = document.createElement('div');
+                header.className = 'card-header';
+
+                const titleGroup = document.createElement('div');
+                const title = document.createElement('h3');
+                title.className = 'command-title';
+                title.textContent = item.name;
+
+                const meaning = document.createElement('span');
+                meaning.className = 'command-meaning';
+                meaning.textContent = ` (${item.meaning})`;
+
+                title.appendChild(meaning);
+                titleGroup.appendChild(title);
+
+                const badge = document.createElement('span');
+                badge.className = 'card-badge';
+                badge.textContent = item.category || 'Linux Command';
+
+                header.appendChild(titleGroup);
+                header.appendChild(badge);
+                card.appendChild(header);
+
+                if (item.safety_warning) {
+                    const warnDiv = document.createElement('div');
+                    warnDiv.className = 'notice-card info-card';
+                    warnDiv.innerHTML = `<span class="notice-icon">!</span><p class="notice-text">${item.safety_warning}</p>`;
+                    card.appendChild(warnDiv);
+                }
+
+                card.appendChild(createSection('Purpose', item.purpose, false));
+                card.appendChild(createSection('Syntax', item.syntax, true));
+                card.appendChild(createSection('Practical Example', item.example, true));
+                card.appendChild(createSection('Example Breakdown', item.example_explanation, false));
+
+                const actionsRow = document.createElement('div');
+                actionsRow.className = 'card-actions-row';
+                const copyBtn = document.createElement('button');
+                copyBtn.className = 'btn-copy-sm';
+                copyBtn.textContent = 'Copy Example';
+                copyBtn.addEventListener('click', () => copyToClipboard(item.example, "Example copied!"));
+                actionsRow.appendChild(copyBtn);
+
+                const inspectBtn = document.createElement('button');
+                inspectBtn.className = 'btn-copy-sm';
+                inspectBtn.textContent = 'Full Details & Options';
+                inspectBtn.addEventListener('click', () => openCommandDetails(item.name));
+                actionsRow.appendChild(inspectBtn);
+
+                card.appendChild(actionsRow);
+
+                bubble.appendChild(card);
+                row.appendChild(avatar);
+                row.appendChild(bubble);
+                chatContainer.appendChild(row);
+            }
+
+            function createSection(headingText, contentText, isCode) {
+                const section = document.createElement('div');
+                section.className = 'card-section';
+
+                const heading = document.createElement('h4');
+                heading.className = 'section-title';
+                heading.textContent = headingText;
+                section.appendChild(heading);
+
+                if (isCode) {
+                    const pre = document.createElement('pre');
+                    pre.className = 'code-block';
+                    const code = document.createElement('code');
+                    code.textContent = contentText;
+                    pre.appendChild(code);
+                    section.appendChild(pre);
+                } else {
+                    const p = document.createElement('p');
+                    p.className = 'section-text';
+                    p.textContent = contentText;
+                    section.appendChild(p);
+                }
+                return section;
+            }
+
+            function renderNoticeCard(message, isError, closeMatches) {
+                const row = document.createElement('div');
+                row.className = 'message-row assistant';
+
+                const avatar = document.createElement('div');
+                avatar.className = 'avatar assistant-avatar';
+                avatar.textContent = '$';
+
+                const bubble = document.createElement('div');
+                bubble.className = 'message-bubble assistant-bubble';
+
+                const notice = document.createElement('div');
+                notice.className = isError ? 'notice-card error-card' : 'notice-card info-card';
+
+                const icon = document.createElement('span');
+                icon.className = 'notice-icon';
+                icon.textContent = isError ? '!' : 'i';
+
+                const textP = document.createElement('p');
+                textP.className = 'notice-text';
+                textP.textContent = message;
+
+                notice.appendChild(icon);
+                notice.appendChild(textP);
+                bubble.appendChild(notice);
+
+                if (closeMatches && closeMatches.length > 0) {
+                    const matchesWrap = document.createElement('div');
+                    matchesWrap.className = 'close-matches-wrap';
+                    const label = document.createElement('span');
+                    label.textContent = "Did you mean: ";
+                    matchesWrap.appendChild(label);
+
+                    closeMatches.forEach(m => {
+                        const mBtn = document.createElement('button');
+                        mBtn.type = 'button';
+                        mBtn.className = 'chip';
+                        mBtn.textContent = m;
+                        mBtn.addEventListener('click', () => {
+                            commandInput.value = m;
+                            clearBtn.style.visibility = 'visible';
+                            handleTerminalSubmit(m);
+                        });
+                        matchesWrap.appendChild(mBtn);
+                    });
+                    bubble.appendChild(matchesWrap);
+                }
+
+                row.appendChild(avatar);
+                row.appendChild(bubble);
+                chatContainer.appendChild(row);
+            }
+
+            function showLoading(show) {
+                loadingIndicator.style.display = show ? 'flex' : 'none';
+            }
+
+            function scrollToBottom() {
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+
+            // ================================================================
+            // UTILITIES & NOTIFICATIONS
+            // ================================================================
+            function copyToClipboard(text, successMsg) {
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(text).then(() => {
+                        showToast(successMsg || "Copied to clipboard!");
+                    }).catch(() => fallbackCopy(text, successMsg));
+                } else {
+                    fallbackCopy(text, successMsg);
+                }
+            }
+
+            function fallbackCopy(text, successMsg) {
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                ta.style.position = 'fixed';
+                ta.style.left = '-9999px';
+                document.body.appendChild(ta);
+                ta.select();
+                try {
+                    document.execCommand('copy');
+                    showToast(successMsg || "Copied to clipboard!");
+                } catch (e) {
+                    showToast("Failed to copy");
+                }
+                document.body.removeChild(ta);
+            }
+
+            function showToast(msg) {
+                toast.textContent = msg;
+                toast.classList.add('visible');
+                setTimeout(() => {
+                    toast.classList.remove('visible');
+                }, 2400);
+            }
+        });
+    </script>
+</body>
+</html>
