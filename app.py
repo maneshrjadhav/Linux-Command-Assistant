@@ -1658,6 +1658,205 @@ def get_stats():
 
 
 # ============================================================================
+# COMMAND COMPARISON & SAFETY MATRIX DATA (Phase 5 & Phase 9)
+# ============================================================================
+COMMAND_COMPARISONS = [
+    {
+        "id": "cp-vs-mv",
+        "title": "cp vs mv (Duplicating vs Moving/Renaming)",
+        "cmd1": "cp",
+        "cmd2": "mv",
+        "category": "Files and directories",
+        "key_difference": "'cp' creates a new independent duplicate copy while preserving the original source file. 'mv' transfers the file to a new path or renames it in place, unlinking the original source.",
+        "cmd1_summary": {
+            "name": "cp",
+            "purpose": "Copy files or directory trees.",
+            "syntax": "cp [options] source destination",
+            "example": "cp report.txt backup_report.txt",
+            "use_case": "Creating backups before editing critical configurations.",
+            "disk_impact": "Consumes additional disk space equal to the copied file size."
+        },
+        "cmd2_summary": {
+            "name": "mv",
+            "purpose": "Move or rename files and directories.",
+            "syntax": "mv [options] source destination",
+            "example": "mv draft.txt final_report.txt",
+            "use_case": "Renaming files or moving finished work into archive folders.",
+            "disk_impact": "Within the same filesystem, only updates directory pointers (inodes); instant execution."
+        },
+        "rule_of_thumb": "Use 'cp -i' when you want to keep the original file untouched; use 'mv -i' when you are reorganizing or renaming."
+    },
+    {
+        "id": "grep-vs-find",
+        "title": "grep vs find (Searching File Content vs Directory Trees)",
+        "cmd1": "grep",
+        "cmd2": "find",
+        "category": "Text processing & Files",
+        "key_difference": "'grep' opens files and searches inside their text contents for matching regex patterns or words. 'find' searches through the filesystem hierarchy based on file metadata (name, size, modification date, permissions).",
+        "cmd1_summary": {
+            "name": "grep",
+            "purpose": "Search text patterns inside files or streamed pipes.",
+            "syntax": "grep [options] 'pattern' file",
+            "example": "grep -rn 'Database connection failed' /var/log/",
+            "use_case": "Locating specific error messages or variables inside source code and log files.",
+            "search_target": "Inside file contents"
+        },
+        "cmd2_summary": {
+            "name": "find",
+            "purpose": "Locate files in directory trees matching metadata criteria.",
+            "syntax": "find [path] [expression]",
+            "example": "find /var/log -name '*.log' -size +10M",
+            "use_case": "Finding all files modified in the last 24 hours or cleaning up large log files.",
+            "search_target": "Filesystem paths and file attributes"
+        },
+        "rule_of_thumb": "Ask yourself: 'Am I looking for a file by its name/properties (find) or text written inside it (grep)?'"
+    },
+    {
+        "id": "chmod-vs-chown",
+        "title": "chmod vs chown (Access Permissions vs Identity Ownership)",
+        "cmd1": "chmod",
+        "cmd2": "chown",
+        "category": "File permissions",
+        "key_difference": "'chmod' (Change Mode) alters what actions (read, write, execute) can be performed by the owner, group, and others. 'chown' (Change Owner) alters who the actual owner user and group are.",
+        "cmd1_summary": {
+            "name": "chmod",
+            "purpose": "Modify read, write, and execute permission bits.",
+            "syntax": "chmod [options] mode file",
+            "example": "chmod 755 deploy.sh",
+            "use_case": "Making a script executable (+x) or securing private keys (600).",
+            "privilege": "File owner or superuser (sudo)"
+        },
+        "cmd2_summary": {
+            "name": "chown",
+            "purpose": "Change the user and/or group owner of a file.",
+            "syntax": "chown [options] owner[:group] file",
+            "example": "sudo chown -R www-data:www-data /var/www/html",
+            "use_case": "Reassigning uploaded web files to the web server process user.",
+            "privilege": "Superuser (sudo) required to transfer ownership"
+        },
+        "rule_of_thumb": "Use 'chown' to answer 'Whose file is this?'; use 'chmod' to answer 'What are they allowed to do with it?'"
+    },
+    {
+        "id": "pwd-vs-ls",
+        "title": "pwd vs ls (Where Am I vs What Is Here)",
+        "cmd1": "pwd",
+        "cmd2": "ls",
+        "category": "Files and directories",
+        "key_difference": "'pwd' returns a single absolute path string representing your exact active position in the filesystem tree. 'ls' lists the directory entries (subdirectories and files) residing in that location.",
+        "cmd1_summary": {
+            "name": "pwd",
+            "purpose": "Print current working directory absolute path.",
+            "syntax": "pwd",
+            "example": "pwd",
+            "use_case": "Confirming your path before running commands that use relative paths.",
+            "output_type": "Single path string (e.g. /home/student/projects)"
+        },
+        "cmd2_summary": {
+            "name": "ls",
+            "purpose": "List contents of the current or specified directory.",
+            "syntax": "ls [options] [path]",
+            "example": "ls -la",
+            "use_case": "Viewing files, file sizes, timestamps, and hidden configuration dotfiles.",
+            "output_type": "Directory contents listing"
+        },
+        "rule_of_thumb": "Run 'pwd' when orienting your current location; run 'ls -la' to see what files exist around you."
+    },
+    {
+        "id": "apt-vs-dpkg",
+        "title": "apt vs dpkg (Repository Dependency Manager vs Low-Level Package Installer)",
+        "cmd1": "apt",
+        "cmd2": "dpkg",
+        "category": "Package management",
+        "key_difference": "'apt' queries remote online repositories, automatically computes dependency trees, and downloads/installs all prerequisite packages. 'dpkg' is a low-level offline tool that installs a local .deb file directly without resolving dependencies.",
+        "cmd1_summary": {
+            "name": "apt",
+            "purpose": "High-level package manager with automatic dependency resolution.",
+            "syntax": "apt [options] command [package]",
+            "example": "sudo apt update && sudo apt install nginx",
+            "use_case": "Standard software installation and system updates on Debian/Ubuntu.",
+            "dependency_resolution": "Automatic via remote repository mirrors"
+        },
+        "cmd2_summary": {
+            "name": "dpkg",
+            "purpose": "Low-level Debian package manager for standalone .deb files.",
+            "syntax": "dpkg [options] -i package.deb",
+            "example": "sudo dpkg -i google-chrome-stable_current_amd64.deb",
+            "use_case": "Installing locally downloaded packages or inspecting raw .deb contents.",
+            "dependency_resolution": "Manual; fails if prerequisite packages are absent"
+        },
+        "rule_of_thumb": "Always prefer 'apt install' for daily software management. Only use 'dpkg -i' when you have manually downloaded a standalone .deb file."
+    }
+]
+
+SAFETY_RISK_MATRIX = {
+    "tiers": [
+        {
+            "tier": 1,
+            "level": "Low Risk / Safe",
+            "badge": "Safe (Read-Only)",
+            "color": "emerald",
+            "description": "Informational commands that query status, display files, or measure system health without altering any system state.",
+            "commands": ["ls", "pwd", "whoami", "date", "cat", "head", "tail", "wc", "grep", "df", "du", "top", "ps", "ping", "tree"],
+            "guideline": "Safe to execute freely without superuser elevation. No risk of accidental data deletion."
+        },
+        {
+            "tier": 2,
+            "level": "Moderate Risk / File State",
+            "badge": "Caution (State Changes)",
+            "color": "amber",
+            "description": "Commands that create, move, or adjust metadata on files. Can overwrite destination files if not monitored.",
+            "commands": ["touch", "mkdir", "cp", "mv", "chmod", "chown", "chgrp", "umask", "ln", "echo"],
+            "guideline": "Always use the '-i' (interactive) flag with 'cp' and 'mv' to prompt before overwriting existing files."
+        },
+        {
+            "tier": 3,
+            "level": "Elevated Risk / System Admin",
+            "badge": "Privileged (Admin Impact)",
+            "color": "orange",
+            "description": "Administrative commands that alter running background services, network interfaces, or software packages.",
+            "commands": ["sudo", "systemctl", "mount", "umount", "apt", "dpkg", "yum", "dnf", "pacman", "ip", "nice"],
+            "guideline": "Requires superuser (root) privileges. Verify service name and network interface names before modifying."
+        },
+        {
+            "tier": 4,
+            "level": "Critical Risk / Destructive",
+            "badge": "Critical (Permanent Action)",
+            "color": "rose",
+            "description": "Commands that permanently delete data, alter disk partition boundaries, or terminate processes abruptly.",
+            "commands": ["rm", "kill", "killall", "fdisk", "dd", "mkfs", "shutdown", "reboot"],
+            "guideline": "Linux has no desktop Recycle Bin. Never run 'rm -rf' without double-checking 'pwd'. Avoid 'kill -9' before attempting SIGTERM."
+        }
+    ],
+    "golden_rules": [
+        "1. Confirm your current directory with 'pwd' before executing deletion commands.",
+        "2. Add the '-i' flag (e.g. 'rm -i', 'cp -i', 'mv -i') to trigger a confirmation prompt before destructive actions.",
+        "3. Always back up configuration files ('cp config.conf config.conf.bak') before editing.",
+        "4. Never grant universal 777 permissions ('chmod 777') to fix permission errors; use least-privilege principles.",
+        "5. Test wildcards with 'ls' or 'echo' before passing them into 'rm' (e.g. verify 'ls *.log' before 'rm *.log')."
+    ]
+}
+
+
+@app.route("/api/comparisons", methods=["GET"])
+def get_comparisons():
+    """Returns curated command comparisons for interactive comparison lab (Phase 5)."""
+    return jsonify({
+        "status": "success",
+        "total": len(COMMAND_COMPARISONS),
+        "comparisons": COMMAND_COMPARISONS
+    }), 200
+
+
+@app.route("/api/safety", methods=["GET"])
+def get_safety_matrix():
+    """Returns safety risk tiers and rules for Linux safety learning (Phase 9)."""
+    return jsonify({
+        "status": "success",
+        "safety": SAFETY_RISK_MATRIX
+    }), 200
+
+
+# ============================================================================
 # SAFE ERROR HANDLERS (No tracebacks exposed)
 # ============================================================================
 

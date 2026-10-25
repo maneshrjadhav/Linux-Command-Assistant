@@ -43,6 +43,11 @@
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                     <span>Command Explorer</span>
                 </button>
+                <button type="button" class="nav-item" data-view="compare">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 3 21 3 21 8"></polyline><line x1="4" y1="20" x2="21" y2="3"></line><polyline points="21 16 21 21 16 21"></polyline><line x1="15" y1="15" x2="21" y2="21"></line><line x1="4" y1="4" x2="9" y2="9"></line></svg>
+                    <span>Command Compare</span>
+                    <span class="nav-badge badge-cyan">Versus</span>
+                </button>
                 <button type="button" class="nav-item" data-view="learning">
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
                     <span>Learning Paths</span>
@@ -50,6 +55,11 @@
                 <button type="button" class="nav-item" data-view="quiz">
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
                     <span>Interactive Quiz</span>
+                </button>
+                <button type="button" class="nav-item" data-view="safety">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    <span>Safety Matrix</span>
+                    <span class="nav-badge badge-rose">Defense</span>
                 </button>
                 <button type="button" class="nav-item" data-view="favorites">
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
@@ -97,6 +107,10 @@
                     <button type="button" class="btn-terminal-switch" id="jumpToSimulatorBtn">
                         <span class="terminal-sym">&#9656;</span>
                         <span>Practice Sim</span>
+                    </button>
+                    <button type="button" class="btn-theme-toggle" id="themeToggleBtn" title="Toggle Light/Dark Theme" aria-label="Toggle theme">
+                        <span class="theme-icon" id="themeIcon">&#9790;</span>
+                        <span class="theme-label" id="themeLabel">Dark</span>
                     </button>
                 </div>
             </header>
@@ -219,6 +233,15 @@
                                     <span class="streak-count" id="dashStreakDays">Study Day 1</span>
                                     <span class="streak-label">Active Streak</span>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="daily-goal-bar-wrap">
+                            <div class="daily-goal-meta">
+                                <span><span class="goal-icon">&#127919;</span> Daily Learning Target: <strong id="dashGoalCount">0 / 5</strong> Commands</span>
+                                <span class="goal-pct" id="dashGoalPct">0%</span>
+                            </div>
+                            <div class="daily-goal-track">
+                                <div class="daily-goal-fill" id="dashGoalFill" style="width: 0%;"></div>
                             </div>
                         </div>
                         <div class="badges-grid" id="dashBadgesGrid">
@@ -506,7 +529,47 @@
                 </section>
 
                 <!-- ======================================================== -->
-                <!-- VIEW 5: LEARNING PATHS -->
+                <!-- VIEW 5: COMMAND COMPARISON LAB (PHASE 5) -->
+                <!-- ======================================================== -->
+                <section class="view-panel" id="view-compare">
+                    <div class="compare-header">
+                        <div>
+                            <span class="view-badge badge-cyan">COMMAND LAB &bull; PHASE 5</span>
+                            <h3 class="section-heading">Command Comparison Lab</h3>
+                            <p class="section-subheading">Side-by-side analysis of commonly confused Linux utilities with guided practice scenarios.</p>
+                        </div>
+                    </div>
+
+                    <!-- Comparison Selector Tabs -->
+                    <div class="compare-selector-bar" id="compareSelectorBar">
+                        <button type="button" class="compare-pill active" data-pair="cp-vs-mv">cp vs mv</button>
+                        <button type="button" class="compare-pill" data-pair="grep-vs-find">grep vs find</button>
+                        <button type="button" class="compare-pill" data-pair="chmod-vs-chown">chmod vs chown</button>
+                        <button type="button" class="compare-pill" data-pair="pwd-vs-ls">pwd vs ls</button>
+                        <button type="button" class="compare-pill" data-pair="apt-vs-dpkg">apt vs dpkg</button>
+                    </div>
+
+                    <!-- Comparison Content Container -->
+                    <div class="comparison-card-container" id="comparisonContentContainer">
+                        <!-- Populated by JavaScript from /api/comparisons -->
+                    </div>
+
+                    <!-- Guided Practice Labs Section -->
+                    <div class="guided-labs-section">
+                        <div class="section-header">
+                            <div>
+                                <h4 class="section-heading">Guided Practice Labs</h4>
+                                <p class="section-subheading">Step through hands-on sandbox scenarios comparing utility behaviors.</p>
+                            </div>
+                        </div>
+                        <div class="guided-labs-grid" id="guidedLabsGrid">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ======================================================== -->
+                <!-- VIEW 6: LEARNING PATHS -->
                 <!-- ======================================================== -->
                 <section class="view-panel" id="view-learning">
                     <div class="learning-header">
@@ -570,12 +633,12 @@
                                 <div class="quiz-intro-icon">&#129504;</div>
                                 <h3 class="quiz-intro-heading">Linux Command Mastery Quiz</h3>
                                 <p class="quiz-intro-text">
-                                    Test your command-line expertise across 18 real-world questions covering filesystem navigation, user permissions, process signals, networking utilities, and systemd services.
+                                    Test your command-line expertise across 22 real-world questions covering filesystem navigation, user permissions, process signals, networking utilities, safety hazards, and systemd services.
                                 </p>
 
                                 <div class="quiz-features-row">
                                     <div class="q-feat-item">
-                                        <span class="q-feat-num">18</span>
+                                        <span class="q-feat-num" id="quizQuestionCountBadge">22</span>
                                         <span class="q-feat-label">Questions</span>
                                     </div>
                                     <div class="q-feat-item">
@@ -583,9 +646,24 @@
                                         <span class="q-feat-label">Deterministic & Local</span>
                                     </div>
                                     <div class="q-feat-item">
-                                        <span class="q-feat-num" id="quizBestScoreDisplay">-- / 18</span>
+                                        <span class="q-feat-num" id="quizBestScoreDisplay">-- / 22</span>
                                         <span class="q-feat-label">Your Best Score</span>
                                     </div>
+                                </div>
+
+                                <div class="quiz-category-filter-wrap">
+                                    <label for="quizCategoryFilterSelect" class="filter-label">Filter by Topic:</label>
+                                    <select id="quizCategoryFilterSelect" class="quiz-cat-select" aria-label="Select quiz category">
+                                        <option value="all">All Topics (Full 22 Questions)</option>
+                                        <option value="Files and directories">Files and Directories</option>
+                                        <option value="Text processing">Text Processing</option>
+                                        <option value="File permissions">File Permissions & Safety</option>
+                                        <option value="Processes and system monitoring">Processes & System Monitoring</option>
+                                        <option value="Storage and disk usage">Storage & Disk Usage</option>
+                                        <option value="Networking">Networking & Remote Access</option>
+                                        <option value="Package management">Package Management</option>
+                                        <option value="System services">System Services & Utilities</option>
+                                    </select>
                                 </div>
 
                                 <div class="quiz-intro-actions">
@@ -681,7 +759,60 @@
                 </section>
 
                 <!-- ======================================================== -->
-                <!-- VIEW 7: FAVORITES & HISTORY -->
+                <!-- VIEW 7: LINUX SAFETY MATRIX & RISK TIERS (PHASE 9) -->
+                <!-- ======================================================== -->
+                <section class="view-panel" id="view-safety">
+                    <div class="safety-header">
+                        <div>
+                            <span class="view-badge badge-rose">DEFENSIVE LINUX &bull; PHASE 9</span>
+                            <h3 class="section-heading">Linux Safety Matrix &amp; Risk Tiers</h3>
+                            <p class="section-subheading">Understanding destructive potential, prevention safeguards, and SysAdmin best practices.</p>
+                        </div>
+                    </div>
+
+                    <!-- SysAdmin Golden Rules Banner -->
+                    <div class="golden-rules-card" id="safetyGoldenRulesCard">
+                        <div class="golden-rules-header">
+                            <span class="golden-icon">&#128737;</span>
+                            <div>
+                                <h4 class="golden-title">SysAdmin Golden Rules for Command Safety</h4>
+                                <p class="golden-subtitle">Universal standards to prevent accidental downtime and irreversible data loss.</p>
+                            </div>
+                        </div>
+                        <div class="golden-rules-grid" id="safetyGoldenRulesGrid">
+                            <!-- Populated by JavaScript from /api/safety -->
+                        </div>
+                    </div>
+
+                    <!-- Interactive Command Risk Checker -->
+                    <div class="risk-checker-card">
+                        <div class="checker-header">
+                            <span class="checker-icon">&#128269;</span>
+                            <div>
+                                <h4 class="checker-title">Interactive Command Risk Evaluator</h4>
+                                <p class="checker-subtitle">Check the safety level, risk tier, and prevention flags for any Linux command before running it.</p>
+                            </div>
+                        </div>
+                        <div class="checker-form">
+                            <input type="text" id="safetyCheckInput" placeholder="Enter a command (e.g. rm -rf /, chmod 777, ls, kill -9)..." autocomplete="off" aria-label="Command safety checker input">
+                            <button type="button" class="btn-primary" id="safetyCheckBtn">Evaluate Risk</button>
+                        </div>
+                        <div class="checker-result" id="safetyCheckResult" style="display: none;">
+                            <!-- Injected by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- 4 Risk Tiers Breakdown -->
+                    <div class="risk-tiers-section">
+                        <h4 class="tiers-heading">Classification of Command Risk Tiers</h4>
+                        <div class="risk-tiers-grid" id="safetyRiskTiersGrid">
+                            <!-- Populated by JavaScript from /api/safety -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ======================================================== -->
+                <!-- VIEW 8: FAVORITES & HISTORY -->
                 <!-- ======================================================== -->
                 <section class="view-panel" id="view-favorites">
                     <div class="fav-tabs-bar">
@@ -1448,6 +1579,44 @@
                     options: ["df -h", "du -sh <dir>", "lsblk", "wc -c"],
                     correct: 1,
                     explanation: "'du -sh' (Disk Usage, Summary, Human-readable) estimates the cumulative disk usage of the target directory."
+                },
+                {
+                    question: "Which command recursively lists directory contents in a visual tree-like hierarchy?",
+                    category: "Files and directories",
+                    options: ["tree", "ls -R", "find", "dir"],
+                    correct: 0,
+                    explanation: "'tree' displays an indented, graphical ASCII tree structure of directories and subdirectories."
+                },
+                {
+                    question: "What is the fundamental operational difference between 'cp' and 'mv'?",
+                    category: "Files and directories",
+                    options: [
+                        "'cp' duplicates data preserving the original, while 'mv' relocates or renames without keeping the original source",
+                        "'cp' only works on text files, while 'mv' works on directories",
+                        "'cp' requires root/sudo access, while 'mv' does not",
+                        "'mv' creates a hard link, while 'cp' creates a symlink"
+                    ],
+                    correct: 0,
+                    explanation: "'cp' makes a second copy leaving the original intact, whereas 'mv' moves or renames the file without keeping the original path."
+                },
+                {
+                    question: "Which built-in command displays the chronological list of commands previously entered during the terminal session?",
+                    category: "System services",
+                    options: ["history", "log", "timeline", "prev"],
+                    correct: 0,
+                    explanation: "'history' outputs numbered commands previously executed in the shell session."
+                },
+                {
+                    question: "Why is running 'rm -rf /' considered catastrophic on a Linux system?",
+                    category: "File permissions",
+                    options: [
+                        "It attempts to recursively force-delete all system files starting from the root directory without confirmation",
+                        "It restarts all system daemons at once",
+                        "It drops all active firewall rules",
+                        "It clears the swap partition only"
+                    ],
+                    correct: 0,
+                    explanation: "'rm -rf /' targets the root hierarchy, stripping critical kernel binaries, libraries, and user files permanently."
                 }
             ];
 
@@ -1463,9 +1632,11 @@
                 renderHistoryUI();
                 renderLearningTracksUI();
                 initSimulator();
+                initComparisonLab();
+                initSafetyMatrix();
 
                 // Quiz best score update
-                quizBestScoreDisplay.textContent = state.bestQuizScore ? `${state.bestQuizScore} / 18` : 'Not taken yet';
+                quizBestScoreDisplay.textContent = state.bestQuizScore ? `${state.bestQuizScore} / 22` : 'Not taken yet';
 
                 try {
                     const resp = await fetch('/api/commands');
@@ -1610,17 +1781,125 @@
                     });
                 });
 
+                // Theme Switcher
+                const themeToggleBtn = document.getElementById('themeToggleBtn');
+                const themeIcon = document.getElementById('themeIcon');
+                const themeLabel = document.getElementById('themeLabel');
+                let currentTheme = localStorage.getItem('lac_theme') || 'dark';
+
+                function applyTheme(theme) {
+                    currentTheme = theme;
+                    if (theme === 'light') {
+                        document.body.classList.add('light-theme');
+                        if (themeIcon) themeIcon.innerHTML = '&#9728;';
+                        if (themeLabel) themeLabel.textContent = 'Light';
+                    } else {
+                        document.body.classList.remove('light-theme');
+                        if (themeIcon) themeIcon.innerHTML = '&#9790;';
+                        if (themeLabel) themeLabel.textContent = 'Dark';
+                    }
+                    localStorage.setItem('lac_theme', theme);
+                }
+                applyTheme(currentTheme);
+
+                if (themeToggleBtn) {
+                    themeToggleBtn.addEventListener('click', () => {
+                        applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
+                    });
+                }
+
+                // Custom Accessible Confirmation Modal
+                const confirmModal = document.getElementById('confirmModal');
+                const confirmCancelBtn = document.getElementById('confirmCancelBtn');
+                const confirmOkBtn = document.getElementById('confirmOkBtn');
+                let confirmCallback = null;
+
+                window.showConfirmModal = function(title, msg, onOk) {
+                    const titleEl = document.getElementById('confirmTitle');
+                    const msgEl = document.getElementById('confirmMessage');
+                    if (confirmModal && titleEl && msgEl) {
+                        titleEl.textContent = title;
+                        msgEl.textContent = msg;
+                        confirmCallback = onOk;
+                        confirmModal.style.display = 'flex';
+                    } else {
+                        if (confirm(msg)) onOk();
+                    }
+                };
+
+                if (confirmCancelBtn) {
+                    confirmCancelBtn.addEventListener('click', () => {
+                        confirmModal.style.display = 'none';
+                        confirmCallback = null;
+                    });
+                }
+                if (confirmOkBtn) {
+                    confirmOkBtn.addEventListener('click', () => {
+                        confirmModal.style.display = 'none';
+                        if (confirmCallback) {
+                            confirmCallback();
+                            confirmCallback = null;
+                        }
+                    });
+                }
+
+                // Dashboard Action Shortcuts
+                const resumeBtn = document.getElementById('dashResumeLessonBtn');
+                if (resumeBtn) {
+                    resumeBtn.addEventListener('click', () => switchView('learning'));
+                }
+                const inspectDailyBtn = document.getElementById('dashDailyInspectBtn');
+                if (inspectDailyBtn) {
+                    inspectDailyBtn.addEventListener('click', () => openCommandDetails('chmod'));
+                }
+                const simDailyBtn = document.getElementById('dashDailySimBtn');
+                if (simDailyBtn) {
+                    simDailyBtn.addEventListener('click', () => {
+                        switchView('simulator');
+                        simInput.value = 'chmod 755 script.sh';
+                        executeSimulatedCommand('chmod 755 script.sh');
+                        simInput.focus();
+                    });
+                }
+                document.querySelectorAll('.btn-track-shortcut').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const track = btn.getAttribute('data-jumptrack');
+                        if (track) {
+                            state.activeTrack = track;
+                            trackTabs.forEach(t => t.classList.toggle('active', t.getAttribute('data-track') === track));
+                            renderLearningTracksUI();
+                            switchView('learning');
+                        }
+                    });
+                });
+
                 resetLearningProgressBtn.addEventListener('click', () => {
-                    if (confirm("Are you sure you want to reset all completed lesson checkboxes?")) {
+                    showConfirmModal("Reset Learning Progress", "Are you sure you want to reset all completed lesson checkboxes?", () => {
                         state.learningProgress = {};
                         saveStorage('lac_learning_progress', state.learningProgress);
                         renderLearningTracksUI();
                         updateStatsUI();
                         showToast("Learning progress reset.");
-                    }
+                    });
                 });
 
-                // Quiz Buttons
+                // Quiz Buttons & Topic Filtering
+                const quizCategoryFilterSelect = document.getElementById('quizCategoryFilterSelect');
+                const quizQuestionCountBadge = document.getElementById('quizQuestionCountBadge');
+                if (quizCategoryFilterSelect) {
+                    quizCategoryFilterSelect.addEventListener('change', () => {
+                        const selCat = quizCategoryFilterSelect.value;
+                        if (selCat === 'all') {
+                            activeQuizQuestions = [...QUIZ_QUESTIONS];
+                        } else {
+                            activeQuizQuestions = QUIZ_QUESTIONS.filter(q => q.category === selCat);
+                        }
+                        if (quizQuestionCountBadge) {
+                            quizQuestionCountBadge.textContent = activeQuizQuestions.length;
+                        }
+                    });
+                }
+
                 startQuizBtn.addEventListener('click', startQuizExecution);
                 quizPrevBtn.addEventListener('click', handleQuizPrev);
                 quizNextBtn.addEventListener('click', handleQuizNext);
@@ -1628,13 +1907,25 @@
                     quizResultsScreen.style.display = 'none';
                     quizReviewSection.style.display = 'none';
                     quizStartScreen.style.display = 'block';
-                    quizBestScoreDisplay.textContent = state.bestQuizScore ? `${state.bestQuizScore} / 18` : 'Not taken yet';
+                    quizBestScoreDisplay.textContent = state.bestQuizScore ? `${state.bestQuizScore} / ${activeQuizQuestions.length}` : 'Not taken yet';
                 });
                 toggleReviewBtn.addEventListener('click', () => {
                     const isVisible = quizReviewSection.style.display === 'block';
                     quizReviewSection.style.display = isVisible ? 'none' : 'block';
                     toggleReviewBtn.textContent = isVisible ? 'Review All Questions' : 'Hide Question Review';
+                    if (!isVisible) renderQuizReviewList(false);
                 });
+
+                const reviewIncorrectOnlyBtn = document.getElementById('reviewIncorrectOnlyBtn');
+                let isReviewIncorrectOnly = false;
+                if (reviewIncorrectOnlyBtn) {
+                    reviewIncorrectOnlyBtn.addEventListener('click', () => {
+                        isReviewIncorrectOnly = !isReviewIncorrectOnly;
+                        reviewIncorrectOnlyBtn.textContent = isReviewIncorrectOnly ? 'Show All Questions' : 'Review Incorrect Only';
+                        quizReviewSection.style.display = 'block';
+                        renderQuizReviewList(isReviewIncorrectOnly);
+                    });
+                }
 
                 // Favorites & History Tabs
                 favTabs.forEach(tab => {
@@ -1646,22 +1937,39 @@
                             favSectionFavorites.style.display = 'block';
                             favSectionHistory.style.display = 'none';
                             clearHistoryBtn.style.display = 'none';
+                            const cf = document.getElementById('clearFavoritesBtn');
+                            if (cf) cf.style.display = 'inline-block';
                         } else {
                             favSectionFavorites.style.display = 'none';
                             favSectionHistory.style.display = 'block';
                             clearHistoryBtn.style.display = 'inline-block';
+                            const cf = document.getElementById('clearFavoritesBtn');
+                            if (cf) cf.style.display = 'none';
                         }
                     });
                 });
 
                 clearHistoryBtn.addEventListener('click', () => {
-                    if (confirm("Clear all recorded command search history?")) {
+                    showConfirmModal("Clear Search History", "Clear all recorded command search history?", () => {
                         state.history = [];
                         saveStorage('lac_history', state.history);
                         renderHistoryUI();
                         showToast("Search history cleared.");
-                    }
+                    });
                 });
+
+                const clearFavoritesBtn = document.getElementById('clearFavoritesBtn');
+                if (clearFavoritesBtn) {
+                    clearFavoritesBtn.addEventListener('click', () => {
+                        showConfirmModal("Clear Favorites", "Are you sure you want to remove all saved favorite commands?", () => {
+                            state.favorites = [];
+                            saveStorage('lac_favorites', state.favorites);
+                            renderFavoritesUI();
+                            updateStatsUI();
+                            showToast("Favorites cleared.");
+                        });
+                    });
+                }
 
                 // Modal Close & Copy Buttons
                 modalCloseBtn.addEventListener('click', closeModal);
@@ -1699,8 +2007,10 @@
                     terminal: 'Terminal Assistant (Safe Sandbox)',
                     simulator: 'Safe Linux Practice Simulator',
                     explorer: 'Smart Command Explorer',
+                    compare: 'Command Comparison Lab',
                     learning: 'Structured Learning Paths',
                     quiz: 'Interactive Command Quiz',
+                    safety: 'Linux Safety Matrix & Risk Tiers',
                     favorites: 'Favorites & Search History',
                     about: 'About Project — AIAD Mini Project'
                 };
@@ -1765,6 +2075,84 @@
 
                 const completedCount = Object.keys(state.learningProgress).filter(k => state.learningProgress[k]).length;
                 statLessonsCompleted.textContent = `${completedCount} / 15`;
+
+                updateDailyGoalUI();
+                renderRecentlyExploredChips();
+                checkAchievements();
+            }
+
+            function updateDailyGoalUI() {
+                const countEl = document.getElementById('dashGoalCount');
+                const pctEl = document.getElementById('dashGoalPct');
+                const fillEl = document.getElementById('dashGoalFill');
+                const target = 5;
+                const current = Math.min(target, state.sessionViewed);
+                const pct = Math.min(100, Math.round((current / target) * 100));
+
+                if (countEl) countEl.textContent = `${current} / ${target}`;
+                if (pctEl) pctEl.textContent = `${pct}%`;
+                if (fillEl) fillEl.style.width = `${pct}%`;
+
+                // Streak tracking
+                const today = new Date().toISOString().split('T')[0];
+                const lastDate = localStorage.getItem('lac_last_study_date');
+                let streak = parseInt(localStorage.getItem('lac_streak_days') || '1', 10);
+
+                if (!lastDate) {
+                    localStorage.setItem('lac_last_study_date', today);
+                    localStorage.setItem('lac_streak_days', '1');
+                } else if (lastDate !== today) {
+                    const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+                    if (lastDate === yesterday) {
+                        streak += 1;
+                    } else {
+                        streak = 1;
+                    }
+                    localStorage.setItem('lac_last_study_date', today);
+                    localStorage.setItem('lac_streak_days', streak.toString());
+                }
+
+                const streakEl = document.getElementById('dashStreakDays');
+                if (streakEl) streakEl.textContent = `Study Day ${streak}`;
+            }
+
+            function renderRecentlyExploredChips() {
+                const container = document.getElementById('dashRecentChips');
+                if (!container) return;
+                const recentHistory = state.history.slice(0, 6);
+                if (recentHistory.length === 0) {
+                    container.innerHTML = `<span class="recent-empty-hint">No commands explored in this session yet. Choose an essential command below!</span>`;
+                    return;
+                }
+                container.innerHTML = '';
+                recentHistory.forEach(item => {
+                    const chip = document.createElement('button');
+                    chip.type = 'button';
+                    chip.className = 'chip';
+                    chip.textContent = item.command;
+                    chip.addEventListener('click', () => openCommandDetails(item.command));
+                    container.appendChild(chip);
+                });
+            }
+
+            function checkAchievements() {
+                if (state.sessionViewed >= 1) {
+                    const b = document.getElementById('badgeFirstStep');
+                    if (b) b.classList.remove('locked');
+                }
+                if (state.favorites.length >= 1) {
+                    const b = document.getElementById('badgeCurator');
+                    if (b) b.classList.remove('locked');
+                }
+                const completedCount = Object.keys(state.learningProgress).filter(k => state.learningProgress[k]).length;
+                if (completedCount >= 1) {
+                    const b = document.getElementById('badgeLabTech');
+                    if (b) b.classList.remove('locked');
+                }
+                if (state.bestQuizScore >= 15) {
+                    const b = document.getElementById('badgeQuizMaster');
+                    if (b) b.classList.remove('locked');
+                }
             }
 
             function renderCategoriesUI() {
@@ -1811,6 +2199,269 @@
                     pill.textContent = cat.name;
                     categoryPillBar.appendChild(pill);
                 });
+            }
+
+            // ================================================================
+            // COMMAND COMPARISON LAB (PHASE 5)
+            // ================================================================
+            let comparisonsData = [];
+            async function initComparisonLab() {
+                try {
+                    const resp = await fetch('/api/comparisons');
+                    const data = await resp.json();
+                    if (data.status === 'success') {
+                        comparisonsData = data.comparisons;
+                        renderComparisonCard('cp-vs-mv');
+                        renderGuidedLabs();
+                    }
+                } catch (e) {
+                    console.error("Failed to load comparisons", e);
+                }
+            }
+
+            const compareSelectorBar = document.getElementById('compareSelectorBar');
+            if (compareSelectorBar) {
+                compareSelectorBar.addEventListener('click', (e) => {
+                    const pill = e.target.closest('.compare-pill');
+                    if (!pill) return;
+                    compareSelectorBar.querySelectorAll('.compare-pill').forEach(p => p.classList.remove('active'));
+                    pill.classList.add('active');
+                    const pairId = pill.getAttribute('data-pair');
+                    renderComparisonCard(pairId);
+                });
+            }
+
+            function renderComparisonCard(pairId) {
+                const container = document.getElementById('comparisonContentContainer');
+                if (!container) return;
+                const comp = comparisonsData.find(c => c.id === pairId) || comparisonsData[0];
+                if (!comp) return;
+
+                const c1 = comp.cmd1;
+                const c2 = comp.cmd2;
+
+                container.innerHTML = `
+                    <div class="compare-card">
+                        <div class="compare-card-header">
+                            <div class="compare-badge-group">
+                                <span class="badge-vs-title">${comp.title}</span>
+                                <span class="badge-vs-cat">${comp.category}</span>
+                            </div>
+                            <p class="compare-key-diff"><strong>Key Architectural Distinction:</strong> ${comp.key_difference}</p>
+                        </div>
+
+                        <div class="comp-columns-grid">
+                            <div class="comp-column">
+                                <div class="comp-col-header">
+                                    <h4 class="comp-cmd-name">${c1.name}</h4>
+                                    <span class="comp-cmd-role">${c1.role}</span>
+                                </div>
+                                <div class="comp-prop"><span class="prop-label">Syntax:</span> <code>${c1.syntax}</code></div>
+                                <div class="comp-prop"><span class="prop-label">Behavior:</span> ${c1.behavior}</div>
+                                <div class="comp-prop"><span class="prop-label">Primary Flag:</span> <code>${c1.typical_flag}</code></div>
+                                <div class="comp-prop comp-pitfall"><span class="prop-label">Pitfall:</span> ${c1.pitfall}</div>
+                                <div class="comp-actions">
+                                    <button type="button" class="btn-primary-sm comp-inspect-btn" data-cmd="${c1.name}">Inspect ${c1.name} &rarr;</button>
+                                </div>
+                            </div>
+
+                            <div class="compare-divider-vs">VS</div>
+
+                            <div class="comp-column">
+                                <div class="comp-col-header">
+                                    <h4 class="comp-cmd-name">${c2.name}</h4>
+                                    <span class="comp-cmd-role">${c2.role}</span>
+                                </div>
+                                <div class="comp-prop"><span class="prop-label">Syntax:</span> <code>${c2.syntax}</code></div>
+                                <div class="comp-prop"><span class="prop-label">Behavior:</span> ${c2.behavior}</div>
+                                <div class="comp-prop"><span class="prop-label">Primary Flag:</span> <code>${c2.typical_flag}</code></div>
+                                <div class="comp-prop comp-pitfall"><span class="prop-label">Pitfall:</span> ${c2.pitfall}</div>
+                                <div class="comp-actions">
+                                    <button type="button" class="btn-primary-sm comp-inspect-btn" data-cmd="${c2.name}">Inspect ${c2.name} &rarr;</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="comp-table-wrap">
+                            <table class="comp-diff-table">
+                                <thead>
+                                    <tr><th>Operational Dimension</th><th>${c1.name}</th><th>${c2.name}</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>Data Mutability</td><td>Preserves original source</td><td>Removes original source pointer</td></tr>
+                                    <tr><td>Filesystem Inode Impact</td><td>Allocates new inode block</td><td>Preserves inode on same filesystem</td></tr>
+                                    <tr><td>Interactive Safeguard</td><td><code>-i</code> (prompts before overwrite)</td><td><code>-i</code> (prompts before overwrite)</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+
+                container.querySelectorAll('.comp-inspect-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        openCommandDetails(btn.getAttribute('data-cmd'));
+                    });
+                });
+            }
+
+            function renderGuidedLabs() {
+                const grid = document.getElementById('guidedLabsGrid');
+                if (!grid) return;
+                grid.innerHTML = '';
+                comparisonsData.forEach(comp => {
+                    const lab = comp.guided_lab;
+                    if (!lab) return;
+                    const card = document.createElement('div');
+                    card.className = 'guided-lab-card';
+                    card.innerHTML = `
+                        <div class="lab-card-top">
+                            <span class="lab-badge">LAB SCENARIO</span>
+                            <h4 class="lab-title">${lab.title}</h4>
+                        </div>
+                        <p class="lab-instructions">${lab.instructions}</p>
+                        <div class="lab-cmd-preview">
+                            <code>${lab.suggested_command}</code>
+                        </div>
+                        <button type="button" class="btn-secondary-sm lab-launch-btn">Try in Simulator &rarr;</button>
+                    `;
+                    card.querySelector('.lab-launch-btn').addEventListener('click', () => {
+                        switchView('simulator');
+                        simInput.value = lab.suggested_command;
+                        executeSimulatedCommand(lab.suggested_command);
+                        simInput.focus();
+                    });
+                    grid.appendChild(card);
+                });
+            }
+
+            // ================================================================
+            // LINUX SAFETY MATRIX & RISK CHECKER (PHASE 9)
+            // ================================================================
+            let safetyData = null;
+            async function initSafetyMatrix() {
+                try {
+                    const resp = await fetch('/api/safety');
+                    const data = await resp.json();
+                    if (data.status === 'success') {
+                        safetyData = data.safety;
+                        renderSafetyGoldenRules();
+                        renderSafetyRiskTiers();
+                    }
+                } catch (e) {
+                    console.error("Failed to load safety data", e);
+                }
+            }
+
+            function renderSafetyGoldenRules() {
+                const grid = document.getElementById('safetyGoldenRulesGrid');
+                if (!grid || !safetyData) return;
+                grid.innerHTML = '';
+                safetyData.golden_rules.forEach(rule => {
+                    const card = document.createElement('div');
+                    card.className = 'rule-card';
+                    card.innerHTML = `
+                        <div class="rule-num">#${rule.id}</div>
+                        <div class="rule-content">
+                            <h5 class="rule-title">${rule.rule}</h5>
+                            <p class="rule-desc">${rule.description}</p>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            }
+
+            function renderSafetyRiskTiers() {
+                const grid = document.getElementById('safetyRiskTiersGrid');
+                if (!grid || !safetyData) return;
+                grid.innerHTML = '';
+                const tierKeys = ['tier_1', 'tier_2', 'tier_3', 'tier_4'];
+                tierKeys.forEach(key => {
+                    const t = safetyData.tiers[key];
+                    if (!t) return;
+                    const card = document.createElement('div');
+                    card.className = `risk-tier-card ${key}`;
+                    const cmdsList = t.commands.map(c => `<button type="button" class="risk-cmd-chip" data-cmd="${c}">${c}</button>`).join(' ');
+                    card.innerHTML = `
+                        <div class="risk-tier-header">
+                            <span class="risk-level-badge ${t.badge}">${t.name}</span>
+                            <span class="risk-badge-label">${t.risk_level}</span>
+                        </div>
+                        <p class="risk-desc">${t.description}</p>
+                        <div class="risk-cmds-block">
+                            <span class="risk-label">Classified Commands:</span>
+                            <div class="risk-cmds-chips">${cmdsList}</div>
+                        </div>
+                        <div class="risk-safeguards">
+                            <span class="risk-label">Operational Safeguards:</span>
+                            <p>${t.safeguards}</p>
+                        </div>
+                    `;
+                    card.querySelectorAll('.risk-cmd-chip').forEach(btn => {
+                        btn.addEventListener('click', () => openCommandDetails(btn.getAttribute('data-cmd')));
+                    });
+                    grid.appendChild(card);
+                });
+            }
+
+            const safetyCheckInput = document.getElementById('safetyCheckInput');
+            const safetyCheckBtn = document.getElementById('safetyCheckBtn');
+            const safetyCheckResult = document.getElementById('safetyCheckResult');
+
+            if (safetyCheckBtn && safetyCheckInput) {
+                safetyCheckBtn.addEventListener('click', evaluateSafetyRisk);
+                safetyCheckInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') evaluateSafetyRisk();
+                });
+            }
+
+            function evaluateSafetyRisk() {
+                const raw = safetyCheckInput.value.trim();
+                if (!raw) return;
+
+                const lower = raw.toLowerCase();
+                let title = "Safe / Read-Only Command";
+                let badgeClass = "badge-emerald";
+                let guidance = "This command performs inspection without modifying filesystem blocks or system services.";
+                let safeguard = "Safe to run freely in any learning or production environment.";
+
+                if (lower.includes('rm -rf /') || lower.includes(':(){ :|:& };:') || lower.includes('mkfs') || lower.includes('dd if=')) {
+                    title = "Tier 4: Catastrophic / Irreversible Data Loss Risk";
+                    badgeClass = "badge-rose";
+                    guidance = "DANGER: This command can wipe operating-system partitions or corrupt storage permanently without confirmation.";
+                    safeguard = "Never execute with root or sudo unless performing intentional disk imaging with verified drive paths.";
+                } else if (lower.startsWith('rm') || lower.startsWith('shutdown') || lower.startsWith('reboot')) {
+                    title = "Tier 4: High Risk Deletion or Halt";
+                    badgeClass = "badge-rose";
+                    guidance = "Removes files or halts server. Linux 'rm' does NOT use a recycle bin; deletions are unlinked immediately.";
+                    safeguard = "Always pass '-i' (interactive) flag to prompt before every deletion.";
+                } else if (lower.startsWith('chmod 777')) {
+                    title = "Tier 3: Severe Permission Anti-Pattern";
+                    badgeClass = "badge-amber";
+                    guidance = "chmod 777 grants universal read, write, and execute permissions to every user on the system, creating a critical vulnerability.";
+                    safeguard = "Use standard least-privilege modes: chmod 755 (scripts) or chmod 644 (config/data files).";
+                } else if (lower.startsWith('chmod') || lower.startsWith('chown') || lower.startsWith('systemctl') || lower.startsWith('kill') || lower.startsWith('pkill') || lower.startsWith('apt')) {
+                    title = "Tier 3: Moderate Risk / System Modification";
+                    badgeClass = "badge-amber";
+                    guidance = "Modifies user access rights, stops/restarts running processes, or alters background service states.";
+                    safeguard = "Check 'systemctl status <service>' before restart; verify process PID with 'ps' before killing.";
+                } else if (lower.startsWith('mkdir') || lower.startsWith('touch') || lower.startsWith('cp') || lower.startsWith('mv') || lower.startsWith('nano') || lower.includes('>')) {
+                    title = "Tier 2: Low-Risk File Modification";
+                    badgeClass = "badge-cyan";
+                    guidance = "Creates new files or alters local directory contents.";
+                    safeguard = "Use '-i' with cp or mv to avoid accidentally overwriting existing target files.";
+                }
+
+                safetyCheckResult.style.display = 'block';
+                safetyCheckResult.innerHTML = `
+                    <div class="eval-result-card">
+                        <div class="eval-top">
+                            <span class="risk-level-badge ${badgeClass}">${title}</span>
+                            <code>${escapeHtml(raw)}</code>
+                        </div>
+                        <p class="eval-guidance">${guidance}</p>
+                        <p class="eval-safeguard"><strong>Recommended Safeguard:</strong> ${safeguard}</p>
+                    </div>
+                `;
             }
 
             // ================================================================
@@ -2053,12 +2704,16 @@
   <table class="sim-help-table">
     <tr><td><code>pwd</code></td><td>Print current virtual working directory path.</td></tr>
     <tr><td><code>ls [-l|-a|-la] [dir]</code></td><td>List files and subdirectories.</td></tr>
+    <tr><td><code>tree [dir]</code></td><td>Display directory hierarchy as a visual tree.</td></tr>
     <tr><td><code>cd [dir|..|~|/]</code></td><td>Change virtual working directory.</td></tr>
     <tr><td><code>mkdir &lt;folder&gt;</code></td><td>Create a new virtual directory.</td></tr>
     <tr><td><code>touch &lt;file&gt;</code></td><td>Create an empty virtual file.</td></tr>
+    <tr><td><code>cp &lt;src&gt; &lt;dest&gt;</code></td><td>Copy virtual file to destination.</td></tr>
+    <tr><td><code>mv &lt;src&gt; &lt;dest&gt;</code></td><td>Move or rename virtual file.</td></tr>
     <tr><td><code>cat &lt;file&gt;</code></td><td>Display text contents of a virtual file.</td></tr>
     <tr><td><code>echo [text] [&gt;|&gt;&gt; file]</code></td><td>Print text or redirect/append output into a file.</td></tr>
     <tr><td><code>rm [-r] &lt;target&gt;</code></td><td>Delete a virtual file or directory.</td></tr>
+    <tr><td><code>history</code></td><td>Show history of commands executed in this session.</td></tr>
     <tr><td><code>whoami</code></td><td>Display the simulated active user ('student').</td></tr>
     <tr><td><code>date</code></td><td>Display virtual system timestamp.</td></tr>
     <tr><td><code>clear</code></td><td>Clear terminal screen output.</td></tr>
@@ -2263,6 +2918,129 @@
                         break;
                     }
 
+                    case 'cp': {
+                        if (args.length < 2) {
+                            appendSimOutput("cp: missing destination file operand after '" + (args[0] || '') + "'", 'sim-text-rose');
+                            break;
+                        }
+                        const srcPath = resolvePath(args[0]);
+                        const srcNode = getNodeAt(srcPath);
+                        if (!srcNode) {
+                            appendSimOutput(`cp: cannot stat '${args[0]}': No such file or directory`, 'sim-text-rose');
+                            break;
+                        }
+                        if (srcNode.type === 'dir') {
+                            appendSimOutput(`cp: -r not specified; omitting directory '${args[0]}'`, 'sim-text-rose');
+                            break;
+                        }
+                        let destArg = args[1];
+                        let destPath = resolvePath(destArg);
+                        let destNode = getNodeAt(destPath);
+                        let targetParent = null;
+                        let targetName = '';
+                        if (destNode && destNode.type === 'dir') {
+                            targetParent = destNode;
+                            targetName = srcNode.name;
+                        } else {
+                            const parentPath = destPath.slice(0, -1);
+                            targetParent = getNodeAt(parentPath.length === 0 ? [] : parentPath);
+                            targetName = destPath[destPath.length - 1];
+                        }
+                        if (!targetParent || targetParent.type !== 'dir') {
+                            appendSimOutput(`cp: cannot create regular file '${destArg}': No such file or directory`, 'sim-text-rose');
+                            break;
+                        }
+                        targetParent.children[targetName] = { name: targetName, type: 'file', content: srcNode.content || '' };
+                        saveStorage('lac_vfs_data', vfs);
+                        break;
+                    }
+
+                    case 'mv': {
+                        if (args.length < 2) {
+                            appendSimOutput("mv: missing destination file operand after '" + (args[0] || '') + "'", 'sim-text-rose');
+                            break;
+                        }
+                        const srcPath = resolvePath(args[0]);
+                        const srcNode = getNodeAt(srcPath);
+                        if (!srcNode) {
+                            appendSimOutput(`mv: cannot stat '${args[0]}': No such file or directory`, 'sim-text-rose');
+                            break;
+                        }
+                        const srcParent = getNodeAt(srcPath.slice(0, -1));
+                        const srcName = srcPath[srcPath.length - 1];
+                        let destArg = args[1];
+                        let destPath = resolvePath(destArg);
+                        let destNode = getNodeAt(destPath);
+                        let targetParent = null;
+                        let targetName = '';
+                        if (destNode && destNode.type === 'dir') {
+                            targetParent = destNode;
+                            targetName = srcName;
+                        } else {
+                            const parentPath = destPath.slice(0, -1);
+                            targetParent = getNodeAt(parentPath.length === 0 ? [] : parentPath);
+                            targetName = destPath[destPath.length - 1];
+                        }
+                        if (!targetParent || targetParent.type !== 'dir') {
+                            appendSimOutput(`mv: cannot move to '${destArg}': No such file or directory`, 'sim-text-rose');
+                            break;
+                        }
+                        targetParent.children[targetName] = JSON.parse(JSON.stringify(srcNode));
+                        targetParent.children[targetName].name = targetName;
+                        if (srcParent && srcParent.children) {
+                            delete srcParent.children[srcName];
+                        }
+                        saveStorage('lac_vfs_data', vfs);
+                        break;
+                    }
+
+                    case 'tree': {
+                        const targetDir = args.length > 0 && !args[0].startsWith('-') ? resolvePath(args[0]) : simCurrentPath;
+                        const rootNode = getNodeAt(targetDir);
+                        if (!rootNode) {
+                            appendSimOutput(`tree: '${args[0]}': No such file or directory`, 'sim-text-rose');
+                            break;
+                        }
+                        let lines = [getDisplayPath(targetDir)];
+                        let dirCount = 0;
+                        let fileCount = 0;
+                        function walkTree(node, prefix) {
+                            if (!node || node.type !== 'dir' || !node.children) return;
+                            const keys = Object.keys(node.children).sort();
+                            keys.forEach((key, idx) => {
+                                const isLast = idx === keys.length - 1;
+                                const child = node.children[key];
+                                const pointer = isLast ? '└── ' : '├── ';
+                                const isDir = child.type === 'dir';
+                                lines.push(prefix + pointer + `<span class="${isDir ? 'sim-dir' : 'sim-file'}">${key}${isDir ? '/' : ''}</span>`);
+                                if (isDir) {
+                                    dirCount++;
+                                    walkTree(child, prefix + (isLast ? '&nbsp;&nbsp;&nbsp;&nbsp;' : '│&nbsp;&nbsp;&nbsp;'));
+                                } else {
+                                    fileCount++;
+                                }
+                            });
+                        }
+                        walkTree(rootNode, '');
+                        lines.push(`<span class="sim-text-muted" style="display:inline-block;margin-top:0.3rem;">${dirCount} directories, ${fileCount} files</span>`);
+                        appendSimOutput(lines.join('<br>'));
+                        break;
+                    }
+
+                    case 'history': {
+                        if (simHistory.length === 0) {
+                            appendSimOutput("No commands in session history.", 'sim-text-muted');
+                            break;
+                        }
+                        let histHtml = '<table class="sim-history-table">';
+                        simHistory.forEach((h, i) => {
+                            histHtml += `<tr><td class="sim-hist-num">${i + 1}</td><td class="sim-hist-cmd">${escapeHtml(h)}</td></tr>`;
+                        });
+                        histHtml += '</table>';
+                        appendSimOutput(histHtml);
+                        break;
+                    }
+
                     default:
                         appendSimOutput(`${escapeHtml(baseCmd)}: command not found. Type 'help' for available simulator commands.`, 'sim-text-rose');
                         break;
@@ -2442,6 +3220,32 @@
                     document.getElementById('modalRelatedBlock').style.display = 'block';
                 } else {
                     document.getElementById('modalRelatedBlock').style.display = 'none';
+                }
+
+                if (details.expected_output) {
+                    document.getElementById('modalExpectedOutput').textContent = details.expected_output;
+                    document.getElementById('modalExpectedOutputBlock').style.display = 'block';
+                } else {
+                    document.getElementById('modalExpectedOutputBlock').style.display = 'none';
+                }
+
+                if (details.common_mistakes) {
+                    document.getElementById('modalCommonMistakes').textContent = details.common_mistakes;
+                    document.getElementById('modalCommonMistakesBlock').style.display = 'block';
+                } else {
+                    document.getElementById('modalCommonMistakesBlock').style.display = 'none';
+                }
+
+                const trySimBtn = document.getElementById('modalTrySimBtn');
+                if (trySimBtn) {
+                    trySimBtn.onclick = () => {
+                        closeModal();
+                        switchView('simulator');
+                        const exampleCmd = details.example ? details.example.split('\n')[0].replace(/^\$\s*/, '') : details.name;
+                        simInput.value = exampleCmd;
+                        executeSimulatedCommand(exampleCmd);
+                        simInput.focus();
+                    };
                 }
 
                 detailsModal.style.display = 'flex';
@@ -2640,6 +3444,8 @@
             // ================================================================
             // INTERACTIVE QUIZ ENGINE (Improved Duplicate-Proof Scoring & Review)
             // ================================================================
+            let activeQuizQuestions = [...QUIZ_QUESTIONS];
+
             function startQuizExecution() {
                 state.currentQuizIndex = 0;
                 state.quizAnswered = {};
@@ -2655,10 +3461,10 @@
             }
 
             function renderQuizQuestion() {
-                const q = QUIZ_QUESTIONS[state.currentQuizIndex];
+                const q = activeQuizQuestions[state.currentQuizIndex];
                 if (!q) return;
 
-                const total = QUIZ_QUESTIONS.length;
+                const total = activeQuizQuestions.length;
                 quizQuestionBadge.textContent = `Question ${state.currentQuizIndex + 1} of ${total}`;
                 quizCategoryTag.textContent = q.category;
                 quizProgressBar.style.width = `${((state.currentQuizIndex + 1) / total) * 100}%`;
@@ -2701,7 +3507,7 @@
             }
 
             function handleQuizOptionSelect(selectedIdx) {
-                const q = QUIZ_QUESTIONS[state.currentQuizIndex];
+                const q = activeQuizQuestions[state.currentQuizIndex];
                 const isCorrect = (selectedIdx === q.correct);
 
                 // Record answer state — prevents duplicate scoring
@@ -2724,7 +3530,7 @@
 
                 showQuizFeedback(isCorrect, q.explanation);
                 quizNextBtn.style.display = 'inline-block';
-                if (state.currentQuizIndex === QUIZ_QUESTIONS.length - 1) {
+                if (state.currentQuizIndex === activeQuizQuestions.length - 1) {
                     quizNextBtn.textContent = 'View Final Results 🏁';
                 } else {
                     quizNextBtn.textContent = 'Next Question →';
@@ -2746,7 +3552,7 @@
             }
 
             function handleQuizNext() {
-                if (state.currentQuizIndex < QUIZ_QUESTIONS.length - 1) {
+                if (state.currentQuizIndex < activeQuizQuestions.length - 1) {
                     state.currentQuizIndex++;
                     renderQuizQuestion();
                 } else {
@@ -2765,7 +3571,7 @@
                 quizActiveScreen.style.display = 'none';
                 quizResultsScreen.style.display = 'block';
 
-                const total = QUIZ_QUESTIONS.length;
+                const total = activeQuizQuestions.length;
                 const score = computeQuizScore();
                 const pct = Math.round((score / total) * 100);
 
@@ -2791,16 +3597,18 @@
                 document.getElementById('resultsTrophyIcon').innerHTML = trophy;
 
                 // Render Review List
-                renderQuizReviewList();
+                renderQuizReviewList(false);
                 showToast(`Quiz completed! Score: ${score}/${total}`);
             }
 
-            function renderQuizReviewList() {
+            function renderQuizReviewList(filterIncorrectOnly = false) {
                 quizReviewList.innerHTML = '';
-                QUIZ_QUESTIONS.forEach((q, idx) => {
+                activeQuizQuestions.forEach((q, idx) => {
                     const ans = state.quizAnswered[idx];
                     const isDone = ans !== undefined;
                     const isCorrect = isDone && ans.isCorrect;
+
+                    if (filterIncorrectOnly && isCorrect) return;
 
                     const item = document.createElement('div');
                     item.className = `review-item ${isCorrect ? 'rev-correct' : 'rev-incorrect'}`;
@@ -2822,6 +3630,10 @@
                     `;
                     quizReviewList.appendChild(item);
                 });
+
+                if (quizReviewList.children.length === 0 && filterIncorrectOnly) {
+                    quizReviewList.innerHTML = `<div class="empty-state-card"><p>No incorrect answers! Outstanding performance! 🎯</p></div>`;
+                }
             }
 
             // ================================================================

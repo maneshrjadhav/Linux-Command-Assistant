@@ -341,10 +341,95 @@ class LinuxCommandAssistantTestCase(unittest.TestCase):
         self.assertIn(b'data-view="terminal"', html_bytes)
         self.assertIn(b'data-view="simulator"', html_bytes)
         self.assertIn(b'data-view="explorer"', html_bytes)
+        self.assertIn(b'data-view="compare"', html_bytes)
         self.assertIn(b'data-view="learning"', html_bytes)
         self.assertIn(b'data-view="quiz"', html_bytes)
+        self.assertIn(b'data-view="safety"', html_bytes)
         self.assertIn(b'data-view="favorites"', html_bytes)
         self.assertIn(b'data-view="about"', html_bytes)
+
+        # Verify Theme Toggle & New Views
+        self.assertIn(b'id="themeToggleBtn"', html_bytes)
+        self.assertIn(b'id="view-compare"', html_bytes)
+        self.assertIn(b'id="view-safety"', html_bytes)
+        self.assertIn(b"Command Comparison Lab", html_bytes)
+        self.assertIn(b"Linux Safety Matrix", html_bytes)
+
+    # ----------------------------------------------------------------------
+    # 20. Command Comparisons API (Phase 5)
+    # ----------------------------------------------------------------------
+    def test_api_comparisons_endpoint(self):
+        """20. Test GET /api/comparisons returns curated side-by-side comparisons."""
+        resp = self.client.get("/api/comparisons")
+        self.assertEqual(resp.status_code, 200)
+        data = resp.get_json()
+        self.assertEqual(data["status"], "success")
+        self.assertGreaterEqual(data["total"], 5)
+        comp_ids = [c["id"] for c in data["comparisons"]]
+        self.assertIn("cp-vs-mv", comp_ids)
+        self.assertIn("grep-vs-find", comp_ids)
+        self.assertIn("chmod-vs-chown", comp_ids)
+        self.assertIn("pwd-vs-ls", comp_ids)
+        self.assertIn("apt-vs-dpkg", comp_ids)
+
+    # ----------------------------------------------------------------------
+    # 21. Linux Safety Risk Matrix API (Phase 9)
+    # ----------------------------------------------------------------------
+    def test_api_safety_endpoint(self):
+        """21. Test GET /api/safety returns 4 risk tiers and SysAdmin golden rules."""
+        resp = self.client.get("/api/safety")
+        self.assertEqual(resp.status_code, 200)
+        data = resp.get_json()
+        self.assertEqual(data["status"], "success")
+        self.assertIn("tiers", data["safety"])
+        self.assertEqual(len(data["safety"]["tiers"]), 4)
+        self.assertIn("golden_rules", data["safety"])
+        self.assertGreaterEqual(len(data["safety"]["golden_rules"]), 5)
+
+    # ----------------------------------------------------------------------
+    # 22. Natural Language FAQ Helper (Phase 2 & Phase 3)
+    # ----------------------------------------------------------------------
+    def test_faq_educational_helper(self):
+        """22. Test natural language learning queries return deterministic guidance."""
+        resp = self.client.post(
+            "/api/command",
+            data=json.dumps({"command": "how to change permissions"}),
+            content_type="application/json"
+        )
+        self.assertEqual(resp.status_code, 200)
+        data = resp.get_json()
+        self.assertTrue(data["found"])
+        self.assertTrue(data.get("is_faq", False))
+        self.assertEqual(data["command"], "chmod")
+        self.assertIn("recommended_lesson", data)
+
+    # ----------------------------------------------------------------------
+    # 23. Command Explorer Sorting API (Phase 3)
+    # ----------------------------------------------------------------------
+    def test_command_explorer_sorting(self):
+        """23. Test GET /api/commands supports sorting by asc, desc, and category."""
+        resp_asc = self.client.get("/api/commands?sort=asc")
+        self.assertEqual(resp_asc.status_code, 200)
+        data_asc = resp_asc.get_json()
+        names_asc = [c["name"] for c in data_asc["commands"]]
+        self.assertEqual(names_asc, sorted(names_asc))
+
+        resp_desc = self.client.get("/api/commands?sort=desc")
+        self.assertEqual(resp_desc.status_code, 200)
+        data_desc = resp_desc.get_json()
+        names_desc = [c["name"] for c in data_desc["commands"]]
+        self.assertEqual(names_desc, sorted(names_desc, reverse=True))
+
+    # ----------------------------------------------------------------------
+    # 24. Enriched Metadata Integrity (Phase 2 & Phase 3)
+    # ----------------------------------------------------------------------
+    def test_all_commands_contain_enriched_details(self):
+        """24. Verify all 53 commands contain expected_output and common_mistakes."""
+        for cmd_name, cmd_data in COMMAND_KNOWLEDGE_BASE.items():
+            self.assertIn("expected_output", cmd_data, f"{cmd_name} missing expected_output")
+            self.assertIn("common_mistakes", cmd_data, f"{cmd_name} missing common_mistakes")
+            self.assertTrue(len(cmd_data["expected_output"].strip()) > 0)
+            self.assertTrue(len(cmd_data["common_mistakes"].strip()) > 0)
 
 
 if __name__ == "__main__":
