@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Linux Command Assistant — Smart Linux Learning Platform
 
 An interactive, feature-rich educational web application built for the **Artificial Intelligence and Application Development (AIAD)** college mini project using **Python, Flask, HTML5, CSS3, and Vanilla JavaScript**.
@@ -281,3 +282,6 @@ For students defending this project in an academic evaluation or viva voce:
   *A:* The Python standard library `difflib.get_close_matches` compares unknown tokens against all known command keys using Ratcliff/Obershelp pattern matching with a cutoff similarity of 0.6.
 - **Q: How does the quiz prevent duplicate score accumulation?**
   *A:* Rather than incrementing a score counter upon every button click, the quiz records answers as a map keyed by question index (`state.quizAnswered[index]`). The total score is computed dynamically as the count of correct answers across all answered questions.
+=======
+# Linux-Command-Assistant
+>>>>>>> 8618fcb4992a1c8c9b1ffbc957da5f899a6b35df
